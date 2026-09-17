@@ -570,72 +570,70 @@ export default function Home() {
         </div>
         <Dialog open={revealed} onOpenChange={setRevealed}>
           <DialogContent className="winner-dialog" showCloseButton={false}>
-            {result && (() => {
-              const subNames: string[] = [];
-              if (result.nativeName) subNames.push(result.nativeName);
-              if (result.nameReading) subNames.push(result.nameReading);
-              if (
-                subNames.length === 0 &&
-                result.aliases &&
-                result.aliases.length > 0
-              ) {
-                subNames.push(...result.aliases.slice(0, 2));
-              }
-              const filmCountText = result.videoCount
-                ? `${result.videoCount} ${t.videoCountUnit}`
-                : null;
-              const subtitle = [...subNames, filmCountText]
-                .filter(Boolean)
-                .join(' · ');
-
-              const actressAge = getActressAge(result);
-              const ageText =
-                actressAge !== undefined
-                  ? `${actressAge} ${t.ageLifeUnit}`
+            {result &&
+              (() => {
+                const subNames: string[] = [];
+                if (result.nativeName) subNames.push(result.nativeName);
+                if (result.nameReading) subNames.push(result.nameReading);
+                if (
+                  subNames.length === 0 &&
+                  result.aliases &&
+                  result.aliases.length > 0
+                ) {
+                  subNames.push(...result.aliases.slice(0, 2));
+                }
+                const filmCountText = result.videoCount
+                  ? `${result.videoCount} ${t.videoCountUnit}`
                   : null;
-              const birthDateText = result.birthDate
-                ? formatBirthDate(result.birthDate, language)
-                : null;
-              const birthAndAge =
-                [birthDateText, ageText].filter(Boolean).join(' · ') || '—';
+                const subtitle = [...subNames, filmCountText]
+                  .filter(Boolean)
+                  .join(' · ');
 
-              const careerYears = getCareerYears(result.debutYear);
-              const careerYearsText =
-                careerYears !== undefined
-                  ? careerYears === 0
-                    ? t.careerLessThanOneYear
-                    : `${careerYears} ${t.careerYearsUnit}`
+                const actressAge = getActressAge(result);
+                const ageText =
+                  actressAge !== undefined
+                    ? `${actressAge} ${t.ageLifeUnit}`
+                    : null;
+                const birthDateText = result.birthDate
+                  ? formatBirthDate(result.birthDate, language)
                   : null;
-              const debutText = result.debutYear
-                ? `${t.debut}: ${result.debutYear}${careerYearsText ? ` · ${careerYearsText}` : ''}`
-                : `${t.debut}: —`;
+                const birthAndAge =
+                  [birthDateText, ageText].filter(Boolean).join(' · ') || '—';
 
-              const measurements =
-                result.bustCm ||
-                result.waistCm ||
-                result.hipCm ||
-                result.cup
-                  ? `B${result.bustCm ?? '—'}${result.cup ? ` (${result.cup.replace(/-Cup$/i, '').trim()})` : ''} · W${result.waistCm ?? '—'} · H${result.hipCm ?? '—'}`
+                const careerYears = getCareerYears(result.debutYear);
+                const careerYearsText =
+                  careerYears !== undefined
+                    ? careerYears === 0
+                      ? t.careerLessThanOneYear
+                      : `${careerYears} ${t.careerYearsUnit}`
+                    : null;
+                const debutText = result.debutYear
+                  ? `${t.debut}: ${result.debutYear}${careerYearsText ? ` · ${careerYearsText}` : ''}`
+                  : `${t.debut}: —`;
+
+                const measurements =
+                  result.bustCm || result.waistCm || result.hipCm || result.cup
+                    ? `B${result.bustCm ?? '—'}${result.cup ? ` (${result.cup.replace(/-Cup$/i, '').trim()})` : ''} · W${result.waistCm ?? '—'} · H${result.hipCm ?? '—'}`
+                    : null;
+                const heightText = result.heightCm
+                  ? `${result.heightCm} cm`
                   : null;
-              const heightText = result.heightCm
-                ? `${result.heightCm} cm`
-                : null;
 
-              let measurementsAndHeight: string;
-              if (measurements && heightText) {
-                measurementsAndHeight = `${measurements} · ${heightText}`;
-              } else if (measurements) {
-                measurementsAndHeight = `${measurements} cm`;
-              } else if (heightText) {
-                measurementsAndHeight = heightText;
-              } else {
-                measurementsAndHeight = '—';
-              }
+                let measurementsAndHeight: string;
+                if (measurements && heightText) {
+                  measurementsAndHeight = `${measurements} · ${heightText}`;
+                } else if (measurements) {
+                  measurementsAndHeight = `${measurements} cm`;
+                } else if (heightText) {
+                  measurementsAndHeight = heightText;
+                } else {
+                  measurementsAndHeight = '—';
+                }
 
-              const bloodTypeText = `${t.bloodType}: ${result.bloodType || '—'}`;
+                const bloodTypeText = `${t.bloodType}: ${result.bloodType || '—'}`;
 
-              const hasProfileData = Boolean(
-                result.birthDate ||
+                const hasProfileData = Boolean(
+                  result.birthDate ||
                   actressAge !== undefined ||
                   result.debutYear ||
                   result.bustCm ||
@@ -644,160 +642,151 @@ export default function Home() {
                   result.cup ||
                   result.heightCm ||
                   result.bloodType,
-              );
+                );
 
-              return (
-                <>
-                  <DialogTitle className="winner-title">
-                    {result.name}
-                  </DialogTitle>
-                  {subtitle && (
-                    <p className="winner-native-name">{subtitle}</p>
-                  )}
-                  <DialogDescription className="winner-description">
-                    {t.tiers[result.tier]}
-                  </DialogDescription>
-                  <div
-                    className="winner-art"
-                    style={
-                      {
-                        '--rarity': colors[result.tier],
-                      } as React.CSSProperties
-                    }
-                  >
-                    <ActressImage actress={result} alt={result.name} />
-                  </div>
-                  {hasProfileData && (
-                    <div className="winner-details">
-                      <div className="winner-detail">
-                        <span>{t.profile}</span>
-                        <strong>{birthAndAge}</strong>
-                        <small className="winner-subdetail">
-                          {debutText}
-                        </small>
-                      </div>
-
-                      <div className="winner-detail">
-                        <span>{t.measurements}</span>
-                        <strong>{measurementsAndHeight}</strong>
-                        <small className="winner-subdetail">
-                          {bloodTypeText}
-                        </small>
-                      </div>
+                return (
+                  <>
+                    <DialogTitle className="winner-title">
+                      {result.name}
+                    </DialogTitle>
+                    {subtitle && (
+                      <p className="winner-native-name">{subtitle}</p>
+                    )}
+                    <DialogDescription className="winner-description">
+                      {t.tiers[result.tier]}
+                    </DialogDescription>
+                    <div
+                      className="winner-art"
+                      style={
+                        {
+                          '--rarity': colors[result.tier],
+                        } as React.CSSProperties
+                      }
+                    >
+                      <ActressImage actress={result} alt={result.name} />
                     </div>
-                  )}
+                    {hasProfileData && (
+                      <div className="winner-details">
+                        <div className="winner-detail">
+                          <span>{t.profile}</span>
+                          <strong>{birthAndAge}</strong>
+                          <small className="winner-subdetail">
+                            {debutText}
+                          </small>
+                        </div>
 
-                  {result.ratings && (
-                    <div className="winner-ratings-card">
-                      <div className="winner-ratings-header">
-                        <span className="winner-ratings-label">
-                          {t.ratings}
-                        </span>
-                        {result.ratings.overall !== undefined && (
-                          <div className="winner-rating-overall">
-                            <span className="overall-label">
-                              {t.overallScore}
-                            </span>
-                            <StarRating score={result.ratings.overall} />
-                          </div>
-                        )}
-                      </div>
-                      <CharacterStatsRadar ratings={result.ratings} t={t} />
-                    </div>
-                  )}
-
-                  {result.tags && result.tags.length > 0 && (
-                    <div className="winner-tags" aria-label={t.tags}>
-                      <span className="winner-tags-label">{t.tags}:</span>
-                      {result.tags.map((tag) => (
-                        <span key={tag} className="winner-tag">
-                          {language === 'en' && TAG_VI_TO_EN[tag]
-                            ? TAG_VI_TO_EN[tag]
-                            : tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {result.contributingMovies &&
-                    result.contributingMovies.length > 0 && (
-                      <div className="winner-movies">
-                        <span className="winner-movies-label">
-                          {t.topFilms}:
-                        </span>
-                        <div className="winner-movies-list">
-                          {result.contributingMovies.map((movie) => (
-                            <a
-                              key={movie.code}
-                              className="winner-movie-chip"
-                              href={`https://www.google.com/search?q=${encodeURIComponent(movie.code)}`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <span>
-                                #{movie.rank} · {movie.code}
-                              </span>
-                              <ExternalLink size={11} />
-                            </a>
-                          ))}
+                        <div className="winner-detail">
+                          <span>{t.measurements}</span>
+                          <strong>{measurementsAndHeight}</strong>
+                          <small className="winner-subdetail">
+                            {bloodTypeText}
+                          </small>
                         </div>
                       </div>
                     )}
 
-                  {(result.socialLinks.length > 0 ||
-                    result.wikipediaUrl ||
-                    result.minnanoAvUrl) && (
-                    <div className="winner-socials">
-                      {result.socialLinks.map((social, index) => (
-                        <a
-                          key={`${social.label}-${social.url}-${index}`}
-                          href={social.url}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {social.label}
-                          {social.handle ? ` @${social.handle}` : ''}{' '}
-                          <ExternalLink size={11} />
-                        </a>
-                      ))}
-                      {result.wikipediaUrl && (
-                        <a
-                          href={result.wikipediaUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {t.wikipedia} <ExternalLink size={11} />
-                        </a>
-                      )}
-                      {result.minnanoAvUrl && (
-                        <a
-                          href={result.minnanoAvUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {t.minnanoAvProfile} <ExternalLink size={11} />
-                        </a>
-                      )}
-                    </div>
-                  )}
+                    {result.ratings && (
+                      <div className="winner-ratings-card">
+                        <div className="winner-ratings-header">
+                          <span className="winner-ratings-label">
+                            {t.ratings}
+                          </span>
+                          {result.ratings.overall !== undefined && (
+                            <div className="winner-rating-overall">
+                              <span className="overall-label">
+                                {t.overallScore}
+                              </span>
+                              <StarRating score={result.ratings.overall} />
+                            </div>
+                          )}
+                        </div>
+                        <CharacterStatsRadar ratings={result.ratings} t={t} />
+                      </div>
+                    )}
 
-                  <div className="winner-actions">
-                    <a
-                      className="find-button"
-                      href={`https://www.google.com/search?q=${encodeURIComponent(result.nativeName || result.name)}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span>{t.source}</span>
-                      <ExternalLink size={15} />
-                    </a>
-                    <button onClick={() => setRevealed(false)}>
-                      {t.continue}
-                    </button>
-                  </div>
-                </>
-              );
-            })()}
+                    {result.tags && result.tags.length > 0 && (
+                      <div className="winner-tags" aria-label={t.tags}>
+                        <span className="winner-tags-label">{t.tags}:</span>
+                        {result.tags.map((tag) => (
+                          <span key={tag} className="winner-tag">
+                            {language === 'en' && TAG_VI_TO_EN[tag]
+                              ? TAG_VI_TO_EN[tag]
+                              : tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {result.contributingMovies &&
+                      result.contributingMovies.length > 0 && (
+                        <div className="winner-movies">
+                          <span className="winner-movies-label">
+                            {t.topFilms}:
+                          </span>
+                          <div className="winner-movies-list">
+                            {result.contributingMovies.map((movie) => (
+                              <a
+                                key={movie.code}
+                                className="winner-movie-chip"
+                                href={`https://www.google.com/search?q=${encodeURIComponent(movie.code)}`}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <span>
+                                  #{movie.rank} · {movie.code}
+                                </span>
+                                <ExternalLink size={11} />
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                    {(result.socialLinks.length > 0 ||
+                      result.wikipediaUrl ||
+                      result.minnanoAvUrl) && (
+                      <div className="winner-socials">
+                        {result.socialLinks.map((social, index) => (
+                          <a
+                            key={`${social.label}-${social.url}-${index}`}
+                            href={social.url}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {social.label}
+                            {social.handle ? ` @${social.handle}` : ''}{' '}
+                            <ExternalLink size={11} />
+                          </a>
+                        ))}
+                        {result.wikipediaUrl && (
+                          <a
+                            href={result.wikipediaUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {t.wikipedia} <ExternalLink size={11} />
+                          </a>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="winner-actions">
+                      <a
+                        className="find-button"
+                        href={`https://www.google.com/search?q=${encodeURIComponent(result.nativeName || result.name)}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>{t.source}</span>
+                        <ExternalLink size={15} />
+                      </a>
+                      <button onClick={() => setRevealed(false)}>
+                        {t.continue}
+                      </button>
+                    </div>
+                  </>
+                );
+              })()}
           </DialogContent>
         </Dialog>
         <section className="inventory">
