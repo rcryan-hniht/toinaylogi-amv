@@ -1,43 +1,43 @@
 // Comprehensive Japanese to Vietnamese tag translations for JAV actresses from Minnano-AV
 export const TAG_JA_TO_VI: Record<string, string> = {
   // Ngực / Breasts
-  巨乳: 'Ngực khủng',
-  爆乳: 'Ngực siêu khủng',
-  美巨乳: 'Ngực khủng tuyệt mỹ',
-  美爆乳: 'Ngực siêu khủng gợi cảm',
+  巨乳: 'Vó tu',
+  爆乳: 'Vó siêu tu',
+  美巨乳: 'Vó tu siêu phẩm',
+  美爆乳: 'Vó tu siêu sếch',
   美乳: 'Ngực đẹp',
-  微乳: 'Ngực khiêm tốn',
-  微美乳: 'Ngực nhỏ xinh',
-  貧乳: 'Ngực lép',
-  垂れ乳: 'Ngực chảy xệ',
-  やや垂れ乳: 'Ngực hơi xệ',
-  垂れ巨乳: 'Ngực khủng chảy xệ',
-  垂れ長乳: 'Ngực thon dài chảy xệ',
-  豊胸乳: 'Ngực thẩm mỹ',
-  偽乳: 'Ngực thẩm mỹ',
-  '偽乳(豊胸乳)': 'Ngực thẩm mỹ',
+  微乳: 'Vó nhủ',
+  微美乳: 'Vó nhủ xinh',
+  貧乳: 'Lép',
+  垂れ乳: 'Xệ',
+  やや垂れ乳: 'Hơi xệ',
+  垂れ巨乳: 'To nhưng xệ xệ',
+  垂れ長乳: 'Tao dài xệ',
+  豊胸乳: 'Độ vú',
+  偽乳: 'Vú giả',
+  '偽乳(豊胸乳)': 'Ngực giả độn',
   エロ乳: 'Ngực gợi cảm',
 
   // Nhũ hoa & Quầng vú / Nipples & Areola
-  乳首: 'Nhũ hoa',
-  デカ乳首: 'Đầu ngực to',
-  乳首大: 'Đầu ngực to',
-  敏感乳首: 'Nhũ hoa nhạy cảm',
-  陥没乳首: 'Nhũ hoa thụt',
-  エロ乳首: 'Đầu ngực gợi cảm',
-  クリ乳首: 'Nhũ hoa nhô cao',
-  黒乳首: 'Nhũ hoa sẫm màu',
-  美乳首: 'Nhũ hoa đẹp',
-  デカ乳輪: 'Quầng vú to',
-  美乳輪: 'Quầng vú đẹp',
-  パフィーニップル: 'Nhũ hoa phồng',
+  乳首: 'Nầm',
+  デカ乳首: 'Nầm to',
+  乳首大: 'Nầm bự',
+  敏感乳首: 'Nầm nhạy cảm',
+  陥没乳首: 'Nầm thụt',
+  エロ乳首: 'Nầm sếch',
+  クリ乳首: 'Nầm nhú',
+  黒乳首: 'Nầm sẫm màu',
+  美乳首: 'Nầm đẹp',
+  デカ乳輪: 'Quầng nầm to',
+  美乳輪: 'Quầng nầm đẹp',
+  パフィーニップル: 'Nầm múp',
   母乳: 'TH True Milf',
 
   // Mông & Chân / Butt & Legs
-  美尻: 'Mông đẹp',
-  巨尻: 'Mông khủng',
+  美尻: 'Đào đẹp',
+  巨尻: 'Đào khủng',
   '巨尻.美人': 'Người đẹp tọa to',
-  美脚: 'Chân dài nuột nà',
+  美脚: 'Chân đẹp',
 
   // Chiều cao & Vóc dáng / Height & Body type
   長身: 'Dáng cao',
@@ -82,9 +82,9 @@ export const TAG_JA_TO_VI: Record<string, string> = {
   お姉さん: 'Chị gái quyến rũ',
   お姉さん系: 'Phong cách chị gái',
   妹系: 'Phong cách em gái',
-  熟女: 'Thục nữ',
-  微熟女: 'Chớm tuổi thục nữ',
-  美熟女: 'Mỹ thục nữ',
+  熟女: 'Mommy',
+  微熟女: 'Chớm tuổi Mommy',
+  美熟女: 'Mommy xinh đẹp',
   美魔女: 'Người đẹp không tuổi',
   人妻: 'Phụ nữ có chồng',
   主婦: 'Nội trợ',
@@ -92,7 +92,7 @@ export const TAG_JA_TO_VI: Record<string, string> = {
   四十路: 'U40',
   ロリ: 'Noni',
   炉利系: 'Phong cách Lolita',
-  'ロリ→熟女': 'Từ loli đến thục nữ',
+  'ロリ→熟女': 'Từ loli đến Mommy',
   ギャル: 'Gyaru',
   黒ギャル: 'Gyaru da nâu',
   ハーフ: 'Con lai',
@@ -174,8 +174,185 @@ export const TAG_JA_TO_VI: Record<string, string> = {
   しろハメ: 'Nghiệp dư',
 };
 
-// English translation fallback for English language mode
+// Comprehensive Japanese to English tag translations for JAV actresses from Minnano-AV
+export const TAG_JA_TO_EN: Record<string, string> = {
+  // Ngực / Breasts
+  巨乳: 'Big Breasts',
+  爆乳: 'Huge Breasts',
+  美巨乳: 'Beautiful Big Breasts',
+  美爆乳: 'Sensual Huge Breasts',
+  美乳: 'Beautiful Breasts',
+  微乳: 'Petite Breasts',
+  微美乳: 'Pretty Small Breasts',
+  貧乳: 'Flat Chest',
+  垂れ乳: 'Saggy Breasts',
+  やや垂れ乳: 'Slightly Saggy',
+  垂れ巨乳: 'Big Saggy Breasts',
+  垂れ長乳: 'Long Saggy Breasts',
+  豊胸乳: 'Breast Implants',
+  偽乳: 'Breast Implants',
+  '偽乳(豊胸乳)': 'Breast Implants',
+  エロ乳: 'Erotic Breasts',
+
+  // Nhũ hoa & Quầng vú / Nipples & Areola
+  乳首: 'Nipples',
+  デカ乳首: 'Large Nipples',
+  乳首大: 'Large Nipples',
+  敏感乳首: 'Sensitive Nipples',
+  陥没乳首: 'Inverted Nipples',
+  エロ乳首: 'Erotic Nipples',
+  クリ乳首: 'Erect Nipples',
+  黒乳首: 'Dark Nipples',
+  美乳首: 'Beautiful Nipples',
+  デカ乳輪: 'Large Areolas',
+  美乳輪: 'Beautiful Areolas',
+  パフィーニップル: 'Puffy Nipples',
+  母乳: 'Lactating',
+
+  // Mông & Chân / Butt & Legs
+  美尻: 'Beautiful Butt',
+  巨尻: 'Big Butt',
+  '巨尻.美人': 'Big Butt Beauty',
+  美脚: 'Beautiful Legs',
+
+  // Chiều cao & Vóc dáng / Height & Body type
+  長身: 'Tall',
+  高身長: 'Tall Height',
+  低身長: 'Petite',
+  小柄: 'Small Stature',
+  ミニ系: 'Petite Body',
+  ミニマム系: 'Cute & Petite',
+  スレンダー: 'Slender',
+  清楚系スレンダー: 'Pure Slender',
+  ムッチリ: 'Plump',
+  ややムチ: 'Slightly Plump',
+  ぽっちゃり: 'Chubby',
+  ポチャ系美人: 'Curvy Beauty',
+  クビレ: 'Slim Waist',
+  くびれ: 'Hourglass Figure',
+  ダイナマイトボディ: 'Dynamite Body',
+  マッスル: 'Fit / Muscular',
+  軟体: 'Flexible',
+  色白: 'Fair Skin',
+  美肌: 'Smooth Skin',
+  美体: 'Great Body',
+
+  // Vùng kín / Intimate features
+  美マン: 'Beautiful Pussy',
+  デカビラ: 'Large Labia',
+  ビラマン: 'Prominent Labia',
+  名器: 'Prized Anatomy',
+  パイパン: 'Shaved',
+  剛毛: 'Natural Bush',
+
+  // Khuôn mặt, Độ tuổi & Phong cách / Appearance, Age & Style
+  美人: 'Beauty',
+  美女: 'Gorgeous',
+  美顔: 'Cute Face',
+  美少女: 'Beautiful Girl',
+  美少女系: 'Young Style',
+  セクシー: 'Sexy',
+  セクシー系: 'Sexy Style',
+  可愛い: 'Cute',
+  かわいい: 'Adorable',
+  お姉さん: 'Mature Sister',
+  お姉さん系: 'Onee-san Style',
+  妹系: 'Little Sister Style',
+  熟女: 'Mature Woman',
+  微熟女: 'Early Mature',
+  美熟女: 'Beautiful Mature',
+  美魔女: 'Ageless Beauty',
+  人妻: 'Married Woman',
+  主婦: 'Housewife',
+  五十路: '50s',
+  四十路: '40s',
+  ロリ: 'Lolita',
+  炉利系: 'Lolita Style',
+  'ロリ→熟女': 'From Loli to Mature',
+  ギャル: 'Gyaru',
+  黒ギャル: 'Tanned Gyaru',
+  ハーフ: 'Mixed / Half',
+  ショートカット: 'Short Hair',
+  ボーイッシュ: 'Boyish',
+  金髪: 'Blonde',
+  整形: 'Cosmetic Surgery',
+
+  // Nghề nghiệp & Thân phận / Occupation & Background
+  芸能人: 'Celebrity',
+  芸人: 'Entertainer',
+  元アイドル: 'Former Idol',
+  元AKB48: 'Ex-AKB48',
+  元女子アナ: 'Former Announcer',
+  グラドル: 'Gravure Idol',
+  キャバ嬢: 'Cabaret Hostess',
+  キャバクラ嬢: 'Cabaret Girl',
+  現役キャバ嬢: 'Active Cabaret Hostess',
+  風俗嬢: 'Sex Worker',
+  デリヘル嬢: 'Delivery Escort',
+  デリ嬢: 'Escort',
+  現役デリヘル嬢: 'Active Delivery Escort',
+  ソープ嬢: 'Soapland Hostess',
+  ホテヘル嬢: 'Hotel Escort',
+  セクシーパブ嬢: 'Sexy Pub Hostess',
+  ストリッパー: 'Stripper',
+  アスリート: 'Athlete',
+  柔道家: 'Judo Athlete',
+  OL: 'Office Lady',
+  舞台女優: 'Stage Actress',
+  脚本家: 'Screenwriter',
+  SOD女子社員: 'SOD Employee',
+  恵比寿マスカッツ: 'Ebisu Muscats',
+  アイドルヲタ: 'Idol Otaku',
+  大河ドラマ: 'Taiga Drama Actress',
+
+  // Thể loại & Trạng thái / Genre & Status
+  名女優: 'Famous Actress',
+  専属: 'Exclusive Actress',
+  単体: 'Solo Actress',
+  企画: 'Freelance Actress',
+  素人: 'Amateur',
+  伝説: 'Legend',
+  引退: 'Retired',
+  復活: 'Comeback',
+  AV復活: 'AV Comeback',
+  '改名・再移籍': 'Renamed / Transferred',
+  流出: 'Leaked',
+  無修正: 'Uncensored',
+  潮吹き: 'Squirting',
+  レズ: 'Lesbian',
+  レズビアン: 'Lesbian',
+  アナル: 'Anal',
+  ぶっかけ: 'Bukkake',
+  ごっくん: 'Gokkun',
+  SM: 'SM',
+  着エロ: 'Chaku-ero',
+  フィストファック: 'Fist Fuck',
+  カリビアン: 'Caribbeancom',
+  一本道: '1pondo',
+  heyzo: 'Heyzo',
+  東京熱: 'Tokyo Hot',
+  FC2: 'FC2',
+  ガチん娘: 'Gachinko',
+  人妻斬り: 'Married Woman Hunter',
+  エッチな0930: '0930',
+  エッチな4610: '4610',
+  GirlsDelta: 'GirlsDelta',
+  身バレ: 'Identity Leaked',
+  ニューハーフ: 'Transgender',
+  男の娘: 'Femboy',
+  タトゥー: 'Tattoo',
+  鼻ピアス: 'Nose Piercing',
+  両手両足タトゥー: 'Arm & Leg Tattoos',
+  背面全面タトゥー: 'Full Back Tattoo',
+  ほぼ全身タトゥー: 'Full Body Tattoo',
+  '左右上腕＆左右大腿タトゥー': 'Arm & Thigh Tattoos',
+  黒人共演性交: 'Black Co-star',
+  しろハメ: 'Amateur',
+};
+
+// Vietnamese to English tag translations (derived + aliases for backward compatibility)
 export const TAG_VI_TO_EN: Record<string, string> = {
+  // Direct mappings generated from TAG_JA_TO_VI -> TAG_JA_TO_EN
   'Ngực khủng': 'Big Breasts',
   'Ngực siêu khủng': 'Huge Breasts',
   'Ngực khủng tuyệt mỹ': 'Beautiful Big Breasts',
@@ -187,7 +364,8 @@ export const TAG_VI_TO_EN: Record<string, string> = {
   'Ngực chảy xệ': 'Saggy Breasts',
   'Ngực hơi xệ': 'Slightly Saggy',
   'Ngực khủng chảy xệ': 'Big Saggy Breasts',
-  'Ngực thẩm mỹ': 'Implants',
+  'Ngực thon dài chảy xệ': 'Long Saggy Breasts',
+  'Ngực thẩm mỹ': 'Breast Implants',
   'Ngực gợi cảm': 'Erotic Breasts',
   'Nhũ hoa': 'Nipples',
   'Đầu ngực to': 'Large Nipples',
@@ -200,11 +378,14 @@ export const TAG_VI_TO_EN: Record<string, string> = {
   'Quầng vú to': 'Large Areolas',
   'Quầng vú đẹp': 'Beautiful Areolas',
   'Nhũ hoa phồng': 'Puffy Nipples',
+  'TH True Milf': 'Lactating',
   'Sữa mẹ': 'Lactating',
   'Mông đẹp': 'Beautiful Butt',
   'Mông khủng': 'Big Butt',
+  'Người đẹp tọa to': 'Big Butt Beauty',
   'Mông khủng mỹ nhân': 'Big Butt Beauty',
   'Chân dài nuột nà': 'Beautiful Legs',
+  'Chân đẹp': 'Beautiful Legs',
   'Dáng cao': 'Tall',
   'Chiều cao nổi bật': 'Tall Height',
   'Nấm lùn': 'Petite',
@@ -213,8 +394,9 @@ export const TAG_VI_TO_EN: Record<string, string> = {
   'Nhỏ nhắn đáng yêu': 'Cute & Petite',
   'Mảnh mai': 'Slender',
   'Mảnh mai thanh thuần': 'Pure Slender',
-  'Đầy đặn': 'Chubby / Plump',
-  'Hơi đẫy đà': 'Slightly Chubby',
+  'Đầy đặn': 'Plump',
+  'Hơi đẫy đà': 'Slightly Plump',
+  Chubby: 'Chubby',
   'Mũm mĩm': 'Curvy',
   'Mũm mĩm xinh xắn': 'Curvy Beauty',
   'Eo thon': 'Slim Waist',
@@ -225,22 +407,26 @@ export const TAG_VI_TO_EN: Record<string, string> = {
   'Làn da trắng nõn': 'Fair Skin',
   'Làn da mịn màng': 'Smooth Skin',
   'Dáng người tuyệt mỹ': 'Great Body',
-  'Quyến rũ': 'Sexy / Sensual',
-  'Phong cách quyến rũ': 'Sexy Style',
-  'Phong cách chị gái': 'Onee-san Style',
-  'Phong cách em gái': 'Little Sister Style',
   'Vùng kín đẹp': 'Beautiful Pussy',
-  'Cực phẩm danh khí': 'Tight / Prized Anatomy',
+  'Mép gợi cảm': 'Large Labia',
+  'Cực phẩm danh khí': 'Prized Anatomy',
+  'Wax sạch bong': 'Shaved',
   'Wax sạch lông': 'Shaved',
-  'Lông rậm tự nhiên': 'Hairy',
+  'Amazon tự nhiên': 'Natural Bush',
+  'Lông rậm tự nhiên': 'Natural Bush',
   'Mỹ nhân': 'Beauty',
   'Người đẹp': 'Gorgeous',
+  Cuti: 'Cute Face',
   'Gương mặt khả ái': 'Pretty Face',
   'Mỹ thiếu nữ': 'Beautiful Girl',
   'Phong cách thiếu nữ': 'Young Style',
+  'Quyến rũ': 'Sexy',
+  'Phong cách quyến rũ': 'Sexy Style',
   'Dễ thương': 'Cute',
   'Đáng yêu': 'Adorable',
-  'Chị gái quyến rũ': 'Older Sister Type',
+  'Chị gái quyến rũ': 'Mature Sister',
+  'Phong cách chị gái': 'Onee-san Style',
+  'Phong cách em gái': 'Little Sister Style',
   'Thục nữ': 'Mature Woman',
   'Chớm tuổi thục nữ': 'Early Mature',
   'Mỹ thục nữ': 'Beautiful Mature',
@@ -249,7 +435,10 @@ export const TAG_VI_TO_EN: Record<string, string> = {
   'Nội trợ': 'Housewife',
   U50: '50s',
   U40: '40s',
+  Noni: 'Lolita',
   Lolita: 'Lolita',
+  'Phong cách Lolita': 'Lolita Style',
+  'Từ loli đến thục nữ': 'From Loli to Mature',
   Gyaru: 'Gyaru',
   'Gyaru da nâu': 'Tanned Gyaru',
   'Con lai': 'Mixed / Half',
@@ -263,39 +452,96 @@ export const TAG_VI_TO_EN: Record<string, string> = {
   'Cựu thành viên AKB48': 'Ex-AKB48',
   'Cựu MC truyền hình': 'Former Announcer',
   'Người mẫu áo tắm': 'Gravure Idol',
-  'Hostess quán bar': 'Cabaret Girl',
+  'Hostess quán bar': 'Cabaret Hostess',
+  'Tiếp viên Cabaret': 'Cabaret Girl',
+  'Tiếp viên quán bar đang làm': 'Active Cabaret Hostess',
+  'Nhân viên ngành dịch vụ': 'Sex Worker',
   'Gái gọi tận nơi': 'Delivery Escort',
-  'Gái gọi đang hành nghề': 'Active Escort',
+  'Gái gọi': 'Escort',
+  'Gái gọi đang hành nghề': 'Active Delivery Escort',
   'Gái tắm Soapland': 'Soapland Hostess',
+  'Gái dịch vụ khách sạn': 'Hotel Escort',
+  'Nhân viên Sexy Pub': 'Sexy Pub Hostess',
   'Vũ nữ thoát y': 'Stripper',
   'Vận động viên': 'Athlete',
+  'Võ sĩ Judo': 'Judo Athlete',
   'Nhân viên văn phòng': 'Office Lady',
+  'Diễn viên sân khấu': 'Stage Actress',
+  'Biên kịch': 'Screenwriter',
+  'Nhân viên nữ SOD': 'SOD Employee',
   'Ebisu Muscats': 'Ebisu Muscats',
+  'Fan cuồng idol': 'Idol Otaku',
+  'Từng đóng phim Taiga': 'Taiga Drama Actress',
   'Nữ diễn viên xuất sắc': 'Famous Actress',
+  'Diễn viên độc quyền': 'Exclusive Actress',
+  'Diễn viên tự do': 'Freelance Actress',
+  'Không chuyên / Nghiệp dư': 'Amateur',
+  'Nghiệp dư': 'Amateur',
   'Huyền thoại': 'Legend',
   'Đã giải nghệ': 'Retired',
   'Tái xuất': 'Comeback',
   'Trở lại ngành AV': 'AV Comeback',
   'Đổi nghệ danh / Chuyển công ty': 'Renamed / Transferred',
+  'Lộ clip': 'Leaked',
+  'Không che': 'Uncensored',
   'Không che (Uncensored)': 'Uncensored',
+  'Đài phun nước': 'Squirting',
   'Phun nước (Squirt)': 'Squirting',
+  'Cắt kéo': 'Lesbian',
+  Lesbian: 'Lesbian',
   'Lesbian (Bách hợp)': 'Lesbian',
+  'Hậu môn': 'Anal',
+  'Bắn tinh lên mặt': 'Bukkake',
   'Bắn tinh lên mặt (Bukkake)': 'Bukkake',
+  'Nuốt tinh trùng': 'Gokkun',
   'Nuốt tinh trùng (Gokkun)': 'Gokkun',
+  SM: 'SM',
+  'Trang phục gợi cảm': 'Chaku-ero',
   'Trang phục gợi cảm (Chaku-ero)': 'Chaku-ero',
+  'Fist fuck': 'Fist Fuck',
+  Caribbeancom: 'Caribbeancom',
+  '1pondo': '1pondo',
+  Heyzo: 'Heyzo',
+  'Tokyo Hot': 'Tokyo Hot',
+  FC2: 'FC2',
+  Gachinko: 'Gachinko',
+  'Chuyên trị gái có chồng': 'Married Woman Hunter',
+  '0930': '0930',
+  '4610': '4610',
+  GirlsDelta: 'GirlsDelta',
+  'Lộ danh tính': 'Identity Leaked',
+  'Người chuyển giới': 'Transgender',
+  Femboy: 'Femboy',
   'Hình xăm': 'Tattoo',
+  'Khuyên mũi': 'Nose Piercing',
+  'Hình xăm tay chân': 'Arm & Leg Tattoos',
+  'Hình xăm kín lưng': 'Full Back Tattoo',
   'Hình xăm toàn thân': 'Full Body Tattoo',
+  'Hình xăm bắp tay đùi': 'Arm & Thigh Tattoos',
+  'Đóng cùng bạn diễn da màu': 'Black Co-star',
 };
 
+// Sets for fast validation of already-translated tags
+const KNOWN_VI_TAGS = new Set([
+  ...Object.values(TAG_JA_TO_VI),
+  ...Object.keys(TAG_VI_TO_EN),
+]);
+
+const KNOWN_EN_TAGS = new Set([
+  ...Object.values(TAG_JA_TO_EN),
+  ...Object.values(TAG_VI_TO_EN),
+]);
+
 /**
- * Translates a Japanese tag or composite tag string to one or more Vietnamese tags.
+ * Translates a Japanese, Vietnamese, or composite tag string to one or more Vietnamese tags.
+ * Skips tags with no available translation.
  */
 export function translateTagToVietnamese(rawTag: string): string[] {
   if (!rawTag || typeof rawTag !== 'string') return [];
   const normalized = rawTag.trim().normalize('NFC');
   if (!normalized) return [];
 
-  // Split tags that might be comma-separated or slash-separated in minnano-av
+  // Split tags that might be comma-separated or slash-separated
   const parts = normalized
     .split(/[,，、/／]/)
     .map((p) => p.trim())
@@ -304,38 +550,48 @@ export function translateTagToVietnamese(rawTag: string): string[] {
   const translatedList: string[] = [];
 
   for (const part of parts) {
-    // 1. Direct dictionary match
+    // 1. Direct dictionary match (JA -> VI)
     if (TAG_JA_TO_VI[part]) {
       translatedList.push(TAG_JA_TO_VI[part]);
       continue;
     }
 
-    // 2. Pattern: weight e.g. "48kg"
+    // 2. Already in Vietnamese
+    if (KNOWN_VI_TAGS.has(part)) {
+      translatedList.push(part);
+      continue;
+    }
+
+    // 3. Pattern: weight e.g. "48kg"
     if (/^\d{2,3}kg$/i.test(part)) {
       translatedList.push(part.toLowerCase());
       continue;
     }
 
-    // 3. Pattern: age e.g. "20歳"
+    // 4. Pattern: height e.g. "165cm"
+    if (/^\d{2,3}cm$/i.test(part)) {
+      translatedList.push(part.toLowerCase());
+      continue;
+    }
+
+    // 5. Pattern: age e.g. "20歳"
     const ageMatch = part.match(/^(\d{2})歳$/);
     if (ageMatch) {
       translatedList.push(`${ageMatch[1]} tuổi`);
       continue;
     }
+    if (/^\d{2}\s*tuổi$/i.test(part)) {
+      translatedList.push(part);
+      continue;
+    }
 
-    // 4. Pattern: tattoo e.g. "...タトゥー"
+    // 6. Pattern: tattoo e.g. "...タトゥー"
     if (part.includes('タトゥー')) {
       translatedList.push('Hình xăm');
       continue;
     }
 
-    // 5. Pattern: Latin/English words (e.g. SM, FC2, OL, Heyzo)
-    if (/^[a-zA-Z0-9\s._-]+$/.test(part)) {
-      translatedList.push(part);
-      continue;
-    }
-
-    // 6. Common prefix / suffix rules
+    // 7. Common prefix / suffix rules
     if (part.endsWith('乳') && part.startsWith('美')) {
       translatedList.push('Ngực đẹp');
       continue;
@@ -345,14 +601,135 @@ export function translateTagToVietnamese(rawTag: string): string[] {
       continue;
     }
     if (part.endsWith('脚') && part.startsWith('美')) {
-      translatedList.push('Chân đẹp');
+      translatedList.push('Chân dài nuột nà');
       continue;
     }
 
-    // Fallback: clean raw part
-    translatedList.push(part);
+    // 8. Pattern: Latin/English words / numbers (e.g. SM, FC2, OL, Heyzo, 1pondo)
+    if (/^[a-zA-Z0-9\s._-]+$/.test(part)) {
+      translatedList.push(part);
+      continue;
+    }
+
+    // Skip if no translation found (do not fall back to untranslated part)
   }
 
   // Deduplicate and filter
   return [...new Set(translatedList)];
+}
+
+/**
+ * Translates a Japanese, Vietnamese, or composite tag string to one or more English tags.
+ * Skips tags with no available translation.
+ */
+export function translateTagToEnglish(rawTag: string): string[] {
+  if (!rawTag || typeof rawTag !== 'string') return [];
+  const normalized = rawTag.trim().normalize('NFC');
+  if (!normalized) return [];
+
+  // Split tags that might be comma-separated or slash-separated
+  const parts = normalized
+    .split(/[,，、/／]/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  const translatedList: string[] = [];
+
+  for (const part of parts) {
+    // 1. Direct dictionary match (JA -> EN)
+    if (TAG_JA_TO_EN[part]) {
+      translatedList.push(TAG_JA_TO_EN[part]);
+      continue;
+    }
+
+    // 2. Direct match from VI -> EN
+    if (TAG_VI_TO_EN[part]) {
+      translatedList.push(TAG_VI_TO_EN[part]);
+      continue;
+    }
+
+    // 3. Already in English
+    if (KNOWN_EN_TAGS.has(part)) {
+      translatedList.push(part);
+      continue;
+    }
+
+    // 4. Pattern: weight e.g. "48kg"
+    if (/^\d{2,3}kg$/i.test(part)) {
+      translatedList.push(part.toLowerCase());
+      continue;
+    }
+
+    // 5. Pattern: height e.g. "165cm"
+    if (/^\d{2,3}cm$/i.test(part)) {
+      translatedList.push(part.toLowerCase());
+      continue;
+    }
+
+    // 6. Pattern: age e.g. "20歳" or "20 tuổi"
+    const ageMatch = part.match(/^(\d{2})歳$/);
+    if (ageMatch) {
+      translatedList.push(`${ageMatch[1]} y/o`);
+      continue;
+    }
+    const ageViMatch = part.match(/^(\d{2})\s*tuổi$/i);
+    if (ageViMatch) {
+      translatedList.push(`${ageViMatch[1]} y/o`);
+      continue;
+    }
+
+    // 7. Pattern: tattoo e.g. "...タトゥー"
+    if (part.includes('タトゥー')) {
+      translatedList.push('Tattoo');
+      continue;
+    }
+
+    // 8. Common prefix / suffix rules
+    if (part.endsWith('乳') && part.startsWith('美')) {
+      translatedList.push('Beautiful Breasts');
+      continue;
+    }
+    if (part.endsWith('尻') && part.startsWith('美')) {
+      translatedList.push('Beautiful Butt');
+      continue;
+    }
+    if (part.endsWith('脚') && part.startsWith('美')) {
+      translatedList.push('Beautiful Legs');
+      continue;
+    }
+
+    // 9. Pattern: Latin/English words / numbers (e.g. SM, FC2, OL, Heyzo, 1pondo)
+    if (/^[a-zA-Z0-9\s._-]+$/.test(part)) {
+      translatedList.push(part);
+      continue;
+    }
+
+    // Skip if no translation found (do not fall back to untranslated part)
+  }
+
+  // Deduplicate and filter
+  return [...new Set(translatedList)];
+}
+
+/**
+ * Translates a single tag or composite tag string into the desired language.
+ * Skips tags with no available translation.
+ */
+export function translateTag(rawTag: string, language: 'vi' | 'en'): string[] {
+  return language === 'en'
+    ? translateTagToEnglish(rawTag)
+    : translateTagToVietnamese(rawTag);
+}
+
+/**
+ * Translates an array of tags (in original text or legacy format) into the specified language.
+ * Deduplicates and skips tags without translations.
+ */
+export function translateTags(
+  rawTags: string[] | undefined | null,
+  language: 'vi' | 'en',
+): string[] {
+  if (!rawTags || !Array.isArray(rawTags)) return [];
+  const result = rawTags.flatMap((tag) => translateTag(tag, language));
+  return [...new Set(result)];
 }

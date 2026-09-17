@@ -7,6 +7,26 @@ import {
 } from '@/lib/actresses';
 
 export type RankedMovie = { rank: number; url: string; code: string };
+export type MovieWithActresses = {
+  movie: RankedMovie;
+  actressUrls: string[];
+};
+export type SingleActressMovie = {
+  movie: RankedMovie;
+  actressUrls: [string];
+};
+
+export function isSingleActressMovie(
+  entry: MovieWithActresses,
+): entry is SingleActressMovie {
+  return entry.actressUrls.length === 1;
+}
+
+export function filterSingleActressMovies(
+  entries: MovieWithActresses[],
+): SingleActressMovie[] {
+  return entries.filter(isSingleActressMovie);
+}
 export type ParsedProfile = {
   sourceUrl: string;
   id: string;
@@ -67,17 +87,16 @@ export function parseRankingPage(
   return movies;
 }
 
-export function parseMovieActressUrls(html: string) {
+export function parseMovieActressUrls(html: string): string[] {
   const $ = cheerio.load(html);
   const actressRow = $('.infoleft li').filter((_, node) =>
-    /^Actress\s*:/i.test(compact($(node).find('strong').text())),
+    /^Actresses?\s*:/i.test(compact($(node).find('strong').text())),
   );
   const urls = (actressRow.length ? actressRow : $('.infoleft'))
     .find('a[href*="/actress/"]')
     .toArray()
     .map((node) => canonicalJavUrl($(node).attr('href'), 'actress'))
     .filter(Boolean) as string[];
-  if (!urls.length) throw new Error('Movie has no parseable actress link');
   return [...new Set(urls)];
 }
 

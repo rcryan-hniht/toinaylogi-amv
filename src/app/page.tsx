@@ -36,7 +36,7 @@ import { usePreferences } from '@/hooks/use-preferences';
 import { eligibleActresses } from '@/lib/actress-preferences';
 import { PreferencesPanel } from '@/components/preferences-panel';
 import { CaseAudio } from '@/lib/case-audio';
-import { TAG_VI_TO_EN } from '@/lib/tag-translations';
+import { translateTags } from '@/lib/tag-translations';
 import { isDirectCardDialogEnabled } from '@/lib/direct-card-dialog';
 import { CharacterStatsRadar } from '@/components/character-stats-radar';
 
@@ -704,18 +704,20 @@ export default function Home() {
                       </div>
                     )}
 
-                    {result.tags && result.tags.length > 0 && (
-                      <div className="winner-tags" aria-label={t.tags}>
-                        <span className="winner-tags-label">{t.tags}:</span>
-                        {result.tags.map((tag) => (
-                          <span key={tag} className="winner-tag">
-                            {language === 'en' && TAG_VI_TO_EN[tag]
-                              ? TAG_VI_TO_EN[tag]
-                              : tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    {(() => {
+                      const displayTags = translateTags(result.tags, language);
+                      if (displayTags.length === 0) return null;
+                      return (
+                        <div className="winner-tags" aria-label={t.tags}>
+                          <span className="winner-tags-label">{t.tags}:</span>
+                          {displayTags.map((tag) => (
+                            <span key={tag} className="winner-tag">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      );
+                    })()}
 
                     {result.contributingMovies &&
                       result.contributingMovies.length > 0 && (

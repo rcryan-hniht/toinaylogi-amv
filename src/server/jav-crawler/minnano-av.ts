@@ -1,5 +1,4 @@
 import type { ActressRatings } from '@/lib/actresses';
-import { translateTagToVietnamese } from '@/lib/tag-translations';
 import type { ParsedProfile } from './parser';
 
 const USER_AGENT =
@@ -138,7 +137,7 @@ export function parseMinnanoAvProfile(
     }
   }
 
-  // 3. Tags (<div class="tagarea">)
+  // 3. Tags (<div class="tagarea">) - store original text for tags
   const rawTags: string[] = [];
   const tagAreaMatch = html.match(/<div class="tagarea">([\s\S]*?)<\/div>/i);
   if (tagAreaMatch) {
@@ -148,10 +147,7 @@ export function parseMinnanoAvProfile(
     rawTags.push(...linkMatches);
   }
 
-  // Translate all tags to Vietnamese and deduplicate
-  const translatedTags = [
-    ...new Set(rawTags.flatMap(translateTagToVietnamese)),
-  ].filter(Boolean);
+  const tags = [...new Set(rawTags.map((t) => t.trim()).filter(Boolean))];
 
   // 4. Debut Year
   let debutYear: number | undefined;
@@ -182,7 +178,7 @@ export function parseMinnanoAvProfile(
     name,
     url: pageUrl,
     ratings: hasAnyRating ? ratings : undefined,
-    tags: translatedTags,
+    tags,
     debutYear,
   };
 }

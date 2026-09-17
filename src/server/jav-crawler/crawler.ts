@@ -7,10 +7,12 @@ import { fetchHtml, fetchImage, mapLimit, safeImageUrl } from './fetch';
 import { createAvBaseEnricher, mergeAvBaseProfile } from './avbase';
 import { createMinnanoAvEnricher, mergeMinnanoAvProfile } from './minnano-av';
 import {
+  isSingleActressMovie,
   parseActressProfile,
   parseMovieActressUrls,
   parseRankingPage,
   type RankedMovie,
+  type SingleActressMovie,
 } from './parser';
 import {
   assignTiers,
@@ -41,7 +43,7 @@ export async function refreshActressData(force = false) {
     });
     const rankingPages: RankedMovie[][] = [];
     let nextRank = 1;
-    for (const page of [1, 2, 3, 4, 5]) {
+    for (const page of [1, 2, 3, 4, 5, 6, 7]) {
       const movies = parseRankingPage(
         await fetchHtml(rankingUrl(page)),
         nextRank,
@@ -66,18 +68,39 @@ export async function refreshActressData(force = false) {
       state: 'refreshing',
       message: `Reading ${uniqueMovies.length} movie pages`,
     });
-    const movieActresses = await mapLimit(uniqueMovies, 2, async (movie) => ({
-      movie,
-      actressUrls: parseMovieActressUrls(await fetchHtml(movie.url)),
-    }));
+    const movieActresses = await mapLimit(uniqueMovies, 2, async (movie) => {
+      try {
+        const actressUrls = parseMovieActressUrls(await fetchHtml(movie.url));
+        return { movie, actressUrls };
+      } catch (error) {
+        console.warn(
+          `[jav-crawler] Skipping movie ${movie.code}: ${error instanceof Error ? error.message : String(error)}`,
+        );
+        return { movie, actressUrls: [] };
+      }
+    });
+
+    const singleActressMovies: SingleActressMovie[] = [];
+    for (const item of movieActresses) {
+      if (isSingleActressMovie(item)) {
+        singleActressMovies.push(item);
+      } else if (item.actressUrls.length >= 2) {
+        console.info(
+          `[jav-crawler] Skipping multi-actress movie ${item.movie.code} (${item.movie.url}): has ${item.actressUrls.length} actresses`,
+        );
+      } else {
+        console.info(
+          `[jav-crawler] Skipping movie ${item.movie.code} (${item.movie.url}): no actress found`,
+        );
+      }
+    }
+
     const actressesToMovies = new Map<string, RankedMovie[]>();
-    movieActresses.forEach(({ movie, actressUrls }) =>
-      actressUrls.forEach((url) => {
-        const list = actressesToMovies.get(url) ?? [];
-        list.push(movie);
-        actressesToMovies.set(url, list);
-      }),
-    );
+    singleActressMovies.forEach(({ movie, actressUrls: [actressUrl] }) => {
+      const list = actressesToMovies.get(actressUrl) ?? [];
+      list.push(movie);
+      actressesToMovies.set(actressUrl, list);
+    });
     if (!actressesToMovies.size) throw new Error('No actresses discovered');
     const snapshotId = `${new Date().toISOString().replace(/[:.]/g, '-').toLowerCase()}-${randomUUID().slice(0, 8)}`;
     staging = await makeStaging(snapshotId);

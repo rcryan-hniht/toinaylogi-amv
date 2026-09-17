@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
+  filterSingleActressMovies,
+  isSingleActressMovie,
   parseActressProfile,
   parseMovieActressUrls,
   parseRankingPage,
@@ -21,7 +23,11 @@ import {
   normalizeName,
   parseMinnanoAvProfile,
 } from '../src/server/jav-crawler/minnano-av';
-import { translateTagToVietnamese } from '../src/lib/tag-translations';
+import {
+  translateTagToVietnamese,
+  translateTagToEnglish,
+  translateTags,
+} from '../src/lib/tag-translations';
 
 const html = readFileSync(
   new URL('./fixtures/xxx-guru.html', import.meta.url),
@@ -185,7 +191,7 @@ test('snapshot schema requires a same-tier food alias and an image path', () => 
   });
 });
 
-test('parses minnano-av quantitative ratings, translated tags, and debut year', () => {
+test('parses minnano-av quantitative ratings, original tags, and debut year', () => {
   const sampleHtml = `
     <h1>彩月七緒 / Satsuki Nao</h1>
     <table class="rate-table">
@@ -217,7 +223,7 @@ test('parses minnano-av quantitative ratings, translated tags, and debut year', 
     eroticAppeal: 9.03,
     overall: 9.07,
   });
-  assert.deepEqual(parsed.tags, ['Ngực khủng', 'Mỹ nhân', '48kg']);
+  assert.deepEqual(parsed.tags, ['巨乳', '美人', '48kg']);
 });
 
 test('translates tags to Vietnamese cleanly with composite tags and patterns', () => {
@@ -234,6 +240,41 @@ test('translates tags to Vietnamese cleanly with composite tags and patterns', (
     'Hình xăm tay chân',
   ]);
   assert.deepEqual(translateTagToVietnamese('タトゥー'), ['Hình xăm']);
+});
+
+test('translates tags to English cleanly with composite tags and patterns', () => {
+  assert.deepEqual(translateTagToEnglish('巨乳'), ['Big Breasts']);
+  assert.deepEqual(translateTagToEnglish('美人'), ['Beauty']);
+  assert.deepEqual(translateTagToEnglish('パフィーニップル，美体，美肌'), [
+    'Puffy Nipples',
+    'Great Body',
+    'Smooth Skin',
+  ]);
+  assert.deepEqual(translateTagToEnglish('48kg'), ['48kg']);
+  assert.deepEqual(translateTagToEnglish('20歳'), ['20 y/o']);
+  assert.deepEqual(translateTagToEnglish('両手両足タトゥー'), [
+    'Arm & Leg Tattoos',
+  ]);
+  assert.deepEqual(translateTagToEnglish('タトゥー'), ['Tattoo']);
+});
+
+test('skips tags without translations', () => {
+  assert.deepEqual(translateTagToVietnamese('未知のタグ'), []);
+  assert.deepEqual(translateTagToEnglish('未知のタグ'), []);
+  assert.deepEqual(translateTagToVietnamese('巨乳，未知のタグ'), [
+    'Ngực khủng',
+  ]);
+  assert.deepEqual(translateTagToEnglish('巨乳，未知のタグ'), ['Big Breasts']);
+  assert.deepEqual(translateTags(['巨乳', '未知のタグ', '美人'], 'vi'), [
+    'Ngực khủng',
+    'Mỹ nhân',
+  ]);
+  assert.deepEqual(translateTags(['巨乳', '未知のタグ', '美人'], 'en'), [
+    'Big Breasts',
+    'Beauty',
+  ]);
+  assert.deepEqual(translateTags(['未知のタグ1', '未知のタグ2'], 'vi'), []);
+  assert.deepEqual(translateTags(['未知のタグ1', '未知のタグ2'], 'en'), []);
 });
 
 test('distinguishes exact names and avoids substring mapping errors like Meguri vs Minoshima Meguri', () => {
@@ -326,7 +367,7 @@ test('validateSnapshot accepts enriched minnano-av fields', () => {
           eroticAppeal: 9.03,
           overall: 9.07,
         },
-        tags: ['Ngực khủng', 'Mỹ nhân'],
+        tags: ['巨乳', '美人'],
         score: 45,
         tier: 0,
         bestRank: 1,
@@ -350,5 +391,110 @@ test('validateSnapshot accepts enriched minnano-av fields', () => {
   );
   assert.equal(validated.actresses[0].debutYear, 2024);
   assert.equal(validated.actresses[0].ratings?.overall, 9.07);
-  assert.deepEqual(validated.actresses[0].tags, ['Ngực khủng', 'Mỹ nhân']);
+  assert.deepEqual(validated.actresses[0].tags, ['巨乳', '美人']);
+});
+
+test('parseMovieActressUrls handles single actress, multiple actresses, and no actress', () => {
+  const singleActressHtml = `
+    <div class="infoleft">
+      <ul>
+        <li><strong>Actor:</strong> <a href="https://jav.guru/actor/actor-1/">Actor 1</a></li>
+        <li><strong>Actress:</strong> <a href="https://jav.guru/actress/star-1/">Star 1</a></li>
+      </ul>
+    </div>
+  `;
+  assert.deepEqual(parseMovieActressUrls(singleActressHtml), [
+    'https://jav.guru/actress/star-1/',
+  ]);
+
+  const multiActressesHtml = `
+    <div class="infoleft">
+      <ul>
+        <li><strong>Actress:</strong> <a href="https://jav.guru/actress/star-1/">Star 1</a>, <a href="https://jav.guru/actress/star-2/">Star 2</a></li>
+      </ul>
+    </div>
+  `;
+  assert.deepEqual(parseMovieActressUrls(multiActressesHtml), [
+    'https://jav.guru/actress/star-1/',
+    'https://jav.guru/actress/star-2/',
+  ]);
+
+  const pluralActressesHtml = `
+    <div class="infoleft">
+      <ul>
+        <li><strong>Actresses:</strong> <a href="https://jav.guru/actress/star-1/">Star 1</a>, <a href="https://jav.guru/actress/star-2/">Star 2</a>, <a href="https://jav.guru/actress/star-3/">Star 3</a></li>
+      </ul>
+    </div>
+  `;
+  assert.deepEqual(parseMovieActressUrls(pluralActressesHtml), [
+    'https://jav.guru/actress/star-1/',
+    'https://jav.guru/actress/star-2/',
+    'https://jav.guru/actress/star-3/',
+  ]);
+
+  const noActressHtml = `
+    <div class="infoleft">
+      <ul>
+        <li><strong>Actor:</strong> <a href="https://jav.guru/actor/actor-1/">Actor 1</a></li>
+        <li><strong>Tags:</strong> <a href="https://jav.guru/tag/vr/">VR</a></li>
+      </ul>
+    </div>
+  `;
+  assert.deepEqual(parseMovieActressUrls(noActressHtml), []);
+});
+
+test('isSingleActressMovie and filterSingleActressMovies skip movies with 2 or more actresses', () => {
+  const movie1 = {
+    movie: { rank: 1, url: 'https://jav.guru/movie-1/', code: 'M-1' },
+    actressUrls: ['https://jav.guru/actress/solo-star/'],
+  };
+  const movie2 = {
+    movie: { rank: 2, url: 'https://jav.guru/movie-2/', code: 'M-2' },
+    actressUrls: [
+      'https://jav.guru/actress/star-1/',
+      'https://jav.guru/actress/star-2/',
+    ],
+  };
+  const movie3 = {
+    movie: { rank: 3, url: 'https://jav.guru/movie-3/', code: 'M-3' },
+    actressUrls: [
+      'https://jav.guru/actress/star-1/',
+      'https://jav.guru/actress/star-2/',
+      'https://jav.guru/actress/star-3/',
+    ],
+  };
+  const movie4 = {
+    movie: { rank: 4, url: 'https://jav.guru/movie-4/', code: 'M-4' },
+    actressUrls: [],
+  };
+  const movie5 = {
+    movie: { rank: 5, url: 'https://jav.guru/movie-5/', code: 'M-5' },
+    actressUrls: ['https://jav.guru/actress/another-solo-star/'],
+  };
+
+  assert.equal(isSingleActressMovie(movie1), true);
+  assert.equal(isSingleActressMovie(movie2), false);
+  assert.equal(isSingleActressMovie(movie3), false);
+  assert.equal(isSingleActressMovie(movie4), false);
+  assert.equal(isSingleActressMovie(movie5), true);
+
+  const filtered = filterSingleActressMovies([
+    movie1,
+    movie2,
+    movie3,
+    movie4,
+    movie5,
+  ]);
+  assert.equal(filtered.length, 2);
+  assert.deepEqual(
+    filtered.map((item) => item.movie.code),
+    ['M-1', 'M-5'],
+  );
+  assert.deepEqual(
+    filtered.map((item) => item.actressUrls[0]),
+    [
+      'https://jav.guru/actress/solo-star/',
+      'https://jav.guru/actress/another-solo-star/',
+    ],
+  );
 });
