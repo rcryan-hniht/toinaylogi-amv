@@ -5,7 +5,7 @@ export const TAG_JA_TO_VI: Record<string, string> = {
   爆乳: 'Vó siêu tu',
   美巨乳: 'Vó tu siêu phẩm',
   美爆乳: 'Vó tu siêu sếch',
-  美乳: 'Ngực đẹp',
+  美乳: 'Tâm hồn đẹp',
   微乳: 'Vó nhủ',
   微美乳: 'Vó nhủ xinh',
   貧乳: 'Lép',
