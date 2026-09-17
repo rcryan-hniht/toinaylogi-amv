@@ -737,8 +737,8 @@ footer a {
   overflow-x: hidden;
   display: flex !important;
   flex-direction: column !important;
-  gap: 10px !important;
-  padding: 16px !important;
+  gap: 8px !important;
+  padding: 14px 16px !important;
 }
 .winner-label {
   color: var(--orange);
@@ -746,22 +746,30 @@ footer a {
   font-size: 11px;
 }
 .winner-title {
-  font-size: 26px !important;
+  font-size: 22px !important;
   line-height: 1.2 !important;
+  margin: 0 !important;
 }
 .winner-native-name {
-  margin: -6px 0 0;
+  margin: -4px 0 0;
   color: #b8c7cd;
-  font-size: 13px;
+  font-size: 12.5px;
+}
+.winner-description {
+  margin: -4px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #8fa4ac;
 }
 .winner-art {
-  width: min(100%, 260px);
+  width: min(100%, 200px);
   aspect-ratio: 1 / 1;
   overflow: hidden;
   margin: 0 auto;
   border-bottom: 4px solid var(--rarity);
   background: #10191e;
   border-radius: 4px;
+  flex-shrink: 0;
 }
 .winner-art .actress-image,
 .winner-art .mystery-art,
@@ -782,22 +790,27 @@ footer a {
   min-width: 0;
   border: 1px solid #304148;
   background: #152127;
-  padding: 7px 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .winner-detail span {
   display: block;
   margin-bottom: 2px;
   color: #8fa4ac;
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.4px;
   text-transform: uppercase;
+  font-weight: 700;
 }
 .winner-detail strong {
   display: block;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   color: #e6eef0;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
+  line-height: 1.35;
 }
 .winner-subdetail {
   display: block;
@@ -805,7 +818,8 @@ footer a {
   color: #9cb1b9;
   font-size: 11px;
   font-weight: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  line-height: 1.3;
 }
 .winner-ratings-card {
   border: 1px solid #304148;
@@ -858,6 +872,57 @@ footer a {
   font-size: 11px;
   font-weight: 600;
 }
+.character-stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0 2px;
+  width: 100%;
+}
+.character-stats-svg {
+  width: 100%;
+  height: auto;
+  max-width: 330px;
+  display: block;
+  margin: 0 auto;
+  overflow: visible;
+  user-select: none;
+}
+.character-stat-group {
+  transition: opacity 0.15s ease;
+}
+.character-stat-text-name {
+  fill: #9cb0ba;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.character-stat-text-score {
+  fill: var(--orange);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.character-stat-guide-num {
+  fill: #435b69;
+  font-family: inherit;
+  font-size: 8.5px;
+  font-weight: 600;
+  user-select: none;
+}
+.character-stats-scale {
+  font-size: 9.5px;
+  color: #607580;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 3px;
+}
 .winner-ratings-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -908,6 +973,14 @@ footer a {
   gap: 5px;
   margin: 2px 0;
 }
+.winner-tags-label {
+  color: #8fa4ac;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-right: 2px;
+}
 .winner-tag {
   display: inline-block;
   background: #17242a;
@@ -925,36 +998,73 @@ footer a {
 .winner-detail-wide {
   grid-column: 1 / -1;
 }
-.winner-profile {
-  text-align: left;
+.winner-movies {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 12px;
-}
-.winner-profile a {
-  color: #b8c7cd;
-  display: flex;
-  gap: 5px;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 1px 0;
+}
+.winner-movies-label {
+  color: #8fa4ac;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-right: 2px;
+}
+.winner-movies-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.winner-movie-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #141f25;
+  color: #c0d1d8;
+  border: 1px solid #2f4149;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.winner-movie-chip:hover {
+  border-color: var(--orange);
+  color: #ffffff;
+  background: #1e3039;
 }
 .winner-socials {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 8px 14px;
-  font-size: 12px;
+  gap: 6px 14px;
+  font-size: 11.5px;
   max-width: 100%;
+  margin: 2px 0;
 }
 .winner-socials a {
   color: var(--orange);
   display: inline-flex;
-  gap: 4px;
+  gap: 3.5px;
   align-items: center;
   max-width: 100%;
   word-break: break-word;
   overflow-wrap: anywhere;
+  text-decoration: none;
+  font-size: 11.5px;
+  transition: opacity 0.15s ease;
+}
+.winner-socials a:hover {
+  text-decoration: underline;
+  opacity: 0.85;
 }
 .winner-socials a svg {
   flex-shrink: 0;
@@ -962,17 +1072,36 @@ footer a {
 .winner-reference-links {
   margin-top: -2px;
 }
-.find-button {
-  background: #e6a436;
-  color: #1a1307;
-  text-decoration: none;
-  padding: 9px 12px;
-  font-weight: bold;
+.winner-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 4px;
+  width: 100%;
+}
+.winner-actions .find-button,
+.winner-actions button {
+  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-radius: 3px;
+  text-align: center;
+  box-sizing: border-box;
   white-space: nowrap;
+}
+.find-button {
+  background: #e6a436;
+  color: #1a1307;
+  border: 1px solid #d4952c;
+  text-decoration: none;
 }
 .find-button:hover {
   background: #f1b34b;
@@ -981,8 +1110,10 @@ footer a {
   flex-shrink: 0;
 }
 .winner-actions button {
+  background: #29383e;
+  color: #e6eef0;
+  border: 1px solid #4b5b61;
   cursor: pointer;
-  white-space: nowrap;
 }
 .winner-actions button:hover {
   background: #34474f;
@@ -1006,8 +1137,15 @@ footer a {
   }
 }
 @media (max-width: 700px) {
-  .winner-details {
-    grid-template-columns: 1fr;
+  .winner-dialog {
+    padding: 12px 14px !important;
+    gap: 7px !important;
+  }
+  .winner-title {
+    font-size: 20px !important;
+  }
+  .winner-art {
+    width: min(100%, 170px);
   }
   .winner-ratings-grid {
     grid-template-columns: 1fr;
