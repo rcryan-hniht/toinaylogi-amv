@@ -227,10 +227,10 @@ test('parses minnano-av quantitative ratings, original tags, and debut year', ()
 });
 
 test('translates tags to Vietnamese cleanly with composite tags and patterns', () => {
-  assert.deepEqual(translateTagToVietnamese('巨乳'), ['Ngực khủng']);
+  assert.deepEqual(translateTagToVietnamese('巨乳'), ['Vó tu']);
   assert.deepEqual(translateTagToVietnamese('美人'), ['Mỹ nhân']);
   assert.deepEqual(translateTagToVietnamese('パフィーニップル，美体，美肌'), [
-    'Nhũ hoa phồng',
+    'Nầm múp',
     'Dáng người tuyệt mỹ',
     'Làn da mịn màng',
   ]);
@@ -262,11 +262,11 @@ test('skips tags without translations', () => {
   assert.deepEqual(translateTagToVietnamese('未知のタグ'), []);
   assert.deepEqual(translateTagToEnglish('未知のタグ'), []);
   assert.deepEqual(translateTagToVietnamese('巨乳，未知のタグ'), [
-    'Ngực khủng',
+    'Vó tu',
   ]);
   assert.deepEqual(translateTagToEnglish('巨乳，未知のタグ'), ['Big Breasts']);
   assert.deepEqual(translateTags(['巨乳', '未知のタグ', '美人'], 'vi'), [
-    'Ngực khủng',
+    'Vó tu',
     'Mỹ nhân',
   ]);
   assert.deepEqual(translateTags(['巨乳', '未知のタグ', '美人'], 'en'), [

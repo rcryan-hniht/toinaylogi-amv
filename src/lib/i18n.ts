@@ -76,6 +76,8 @@ export const copy = {
     sourceData: 'Nguồn xếp hạng · cập nhật',
     adultNote:
       'Chỉ dành cho người trưởng thành. Dữ liệu từ AvBase & Minnano-AV.',
+    manageCases: 'Quản Lý Hòm',
+    customCase: 'Hòm Cá Nhân',
   },
   en: {
     tiers: ['MIL-SPEC', 'RESTRICTED', 'CLASSIFIED', 'COVERT', '★ SPECIAL ITEM'],
@@ -150,5 +152,7 @@ export const copy = {
     videoCountUnit: 'videos',
     sourceData: 'Ranking source · updated',
     adultNote: 'Adults only. Profile data from AvBase & Minnano-AV.',
+    manageCases: 'Manage Cases',
+    customCase: 'Custom Case',
   },
 } as const;

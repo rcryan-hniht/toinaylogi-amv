@@ -15,6 +15,8 @@
 
 - This app is for local use: bind dev/preview to loopback, use cookie-only automatic preference persistence, and do not add login, account screens, backend endpoints or database clients beyond the explicitly approved local Redis counter, or hosted-demo deployment. Only user-clicked external links may leave the local app; background asset loads stay local.
 
+- Commit rule: Follow `rules/commit_rule.md`. Keep commit messages concise, and never include detailed edits or sensitive/adult keywords from modified source files in commit messages.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

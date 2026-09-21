@@ -68,3 +68,43 @@ export function spinProgress(progress: number, friction: number) {
   const p = Math.max(0, Math.min(1, progress));
   return 1 - Math.pow(1 - p, friction);
 }
+
+/**
+ * Near-miss injection: with 45% probability, place a high-tier item
+ * at position K-1 or K+1 relative to the winner position K.
+ * This replicates the CS:GO "almost got the knife" suspense effect.
+ */
+export function injectNearMiss<T extends Tiered>(
+  strip: T[],
+  winnerIndex: number,
+  pool: T[],
+  random = Math.random,
+): void {
+  if (random() > 0.45) return;
+  const highTier = pool.filter((item) => item.tier >= 3);
+  if (!highTier.length) return;
+  const offset = random() < 0.5 ? -1 : 1;
+  const target = winnerIndex + offset;
+  if (target < 0 || target >= strip.length) return;
+  if (strip[target].tier >= 3) return; // already rare, skip
+  strip[target] = highTier[Math.floor(random() * highTier.length)];
+}
+
+/**
+ * Choose an item using custom weights (for custom_weight drop mode).
+ * Each item has a .weight property; probability is weight / totalWeight.
+ */
+export function chooseWeighted<T extends { weight?: number }>(
+  items: T[],
+  random = Math.random,
+): T {
+  if (!items.length) throw new Error('No eligible items');
+  const weights = items.map((item) => Math.max(1, item.weight ?? 1));
+  const total = weights.reduce((sum, w) => sum + w, 0);
+  let draw = random() * total;
+  for (let i = 0; i < items.length; i++) {
+    draw -= weights[i];
+    if (draw < 0) return items[i];
+  }
+  return items[items.length - 1];
+}

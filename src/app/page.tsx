@@ -23,7 +23,9 @@ import {
 import { readCookie, writeCookie } from '@/lib/cookies';
 import {
   chooseTiered,
+  chooseWeighted,
   createSpinProfile,
+  injectNearMiss,
   spinProgress,
   stopFraction,
 } from '@/lib/case-mechanics';
@@ -33,8 +35,12 @@ import { useActressSnapshot } from '@/hooks/use-actress-snapshot';
 import { useLocalSpinCount } from '@/hooks/use-local-spin-count';
 import { useServerSpinCount } from '@/hooks/use-server-spin-count';
 import { usePreferences } from '@/hooks/use-preferences';
+import { useCustomCases } from '@/hooks/use-custom-cases';
 import { eligibleActresses } from '@/lib/actress-preferences';
 import { PreferencesPanel } from '@/components/preferences-panel';
+import { CaseSelector } from '@/components/case-selector';
+import { CaseBuilderModal } from '@/components/case-builder-modal';
+import { CaseManagerModal } from '@/components/case-manager-modal';
 import { CaseAudio } from '@/lib/case-audio';
 import { translateTags } from '@/lib/tag-translations';
 import { isDirectCardDialogEnabled } from '@/lib/direct-card-dialog';
@@ -212,6 +218,9 @@ export default function Home() {
   const position = useRef(-400);
   const frame = useRef(0);
   const audio = useRef<CaseAudio | null>(null);
+  const customCases = useCustomCases();
+  const [showCaseBuilder, setShowCaseBuilder] = useState(false);
+  const [showCaseManager, setShowCaseManager] = useState(false);
   const t = copy[language];
 
   useEffect(() => {
@@ -249,10 +258,27 @@ export default function Home() {
   useEffect(() => {
     if (snapshot && !spinning) setActive(snapshot.actresses);
   }, [snapshot, spinning]);
-  const eligible = useMemo(
-    () => eligibleActresses(active, preferences.profile),
-    [active, preferences.profile],
-  );
+  const eligible = useMemo(() => {
+    if (customCases.activeCase) {
+      // Map custom case items to Actress-like objects for the reel
+      return customCases.activeCase.items.map((item) => ({
+        id: item.id,
+        sourceUrl: '',
+        name: item.name,
+        publicName: item.name,
+        aliases: [],
+        imagePath: item.imagePath,
+        socialLinks: [],
+        score: 0,
+        tier: item.tier as 0 | 1 | 2 | 3 | 4,
+        bestRank: 0,
+        appearances: 0,
+        contributingMovies: [],
+        weight: item.weight,
+      })) as (Actress & { weight?: number })[];
+    }
+    return eligibleActresses(active, preferences.profile);
+  }, [active, preferences.profile, customCases.activeCase]);
   useEffect(() => {
     if (!eligible.length) {
       setReel([]);
@@ -292,7 +318,11 @@ export default function Home() {
       return;
     audio.current?.unlock();
     busy.current = true;
-    const winner = chooseTiered(eligible);
+    const isCustomWeight =
+      customCases.activeCase?.dropMode === 'custom_weight';
+    const winner = isCustomWeight
+      ? chooseWeighted(eligible as (Actress & { weight?: number })[])
+      : chooseTiered(eligible);
     const step = reelStep,
       tileWidth = 240,
       width = viewport.current.clientWidth;
@@ -317,10 +347,23 @@ export default function Home() {
       const actress =
         last === target
           ? winner
-          : chooseTiered(options.length ? options : eligible);
+          : isCustomWeight
+            ? chooseWeighted((options.length ? options : eligible) as (Actress & { weight?: number })[])
+            : chooseTiered(options.length ? options : eligible);
       current.push({ id: last, actress });
       recent.push(actress);
       if (recent.length > 8) recent.shift();
+    }
+    // Near-miss injection: place rare items adjacent to the winner
+    const winnerIdx = current.findIndex((item) => item.id === target);
+    if (winnerIdx >= 0) {
+      const actresses = current.map((item) => item.actress);
+      injectNearMiss(actresses, winnerIdx, eligible);
+      for (let i = 0; i < current.length; i++) {
+        current[i] = { ...current[i], actress: actresses[i] };
+      }
+      // Ensure winner is still correct after injection
+      current[winnerIdx] = { ...current[winnerIdx], actress: winner };
     }
     flushSync(() => {
       setReel(current);
@@ -357,6 +400,9 @@ export default function Home() {
       }
       recordSpin(winner);
       void recordServerSpin();
+      if (customCases.activeCase) {
+        customCases.incrementSpinCount(customCases.activeCase.id);
+      }
       busy.current = false;
       setSpinning(false);
       setResult(winner);
@@ -449,6 +495,15 @@ export default function Home() {
           >
             {sound ? <Volume2 size={18} /> : <VolumeX size={18} />}
           </button>
+          {customCases.cases.length > 0 && (
+            <button
+              className="preferences-button"
+              onClick={() => setShowCaseManager(true)}
+            >
+              <Box size={14} />
+              <span>{t.manageCases}</span>
+            </button>
+          )}
           <a
             className="github-button"
             href="https://github.com/zennomi/toinaylogi"
@@ -497,13 +552,23 @@ export default function Home() {
         {!eligible.length && (
           <p className="preferences-message">{t.noEligible}</p>
         )}
+        <CaseSelector
+          customCases={customCases}
+          language={language}
+          disabled={spinning}
+          onCreateNew={() => setShowCaseBuilder(true)}
+        />
         <div className="cs-case-heading">
           <div className="cs-case-emblem" aria-hidden="true">
             <Box size={20} />
           </div>
           <div className="cs-case-info">
             <span className="cs-case-subtitle">{t.crateCollection}</span>
-            <h2 className="cs-case-title">{t.crateTitle}</h2>
+            <h2 className="cs-case-title">
+              {customCases.activeCase
+                ? `${customCases.activeCase.icon || '📦'} ${customCases.activeCase.name}`
+                : t.crateTitle}
+            </h2>
           </div>
           <div className={`cs-case-status ${spinning ? 'opening' : 'ready'}`}>
             <span className="cs-case-status-dot" />
@@ -862,6 +927,23 @@ export default function Home() {
           </div>
         </footer>
       </main>
+      {showCaseBuilder && (
+        <CaseBuilderModal
+          actresses={active}
+          language={language}
+          onSave={(name, items, options) =>
+            customCases.addCase(name, items, options)
+          }
+          onClose={() => setShowCaseBuilder(false)}
+        />
+      )}
+      {showCaseManager && (
+        <CaseManagerModal
+          customCases={customCases}
+          language={language}
+          onClose={() => setShowCaseManager(false)}
+        />
+      )}
     </div>
   );
 }
