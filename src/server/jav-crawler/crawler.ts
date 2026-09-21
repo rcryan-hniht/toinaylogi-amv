@@ -32,6 +32,32 @@ const extensionFor = (contentType: string) =>
       ? 'webp'
       : 'jpg';
 
+export const EXCLUDED_ACTRESS_IDS = new Set([
+  'harunai-noa',
+  'hiraoka-rieko',
+  'hojo-maki',
+  'honjo-suzu',
+  'kosaka-himari',
+  'kudo-rara',
+  'mamiya-yui',
+  'minoshima-meguri',
+  'mino-suzume',
+  'misaki-sonoka',
+  'miyoshi-yuka',
+  'mochizuki-tsubomi',
+  'nagahama-mitsuri',
+  'nagai-mihina',
+  'namba-haruka',
+  'natsuyo-eru',
+  'nia',
+  'nishimiya-yume',
+  'nonomiya-misato',
+  'shiina-yuna',
+  'tanaka-nene',
+  'tanihara-nozomi',
+  'uruki-sarara',
+]);
+
 export async function refreshActressData(force = false) {
   const release = await takeLock();
   if (!release) return false;
@@ -97,6 +123,8 @@ export async function refreshActressData(force = false) {
 
     const actressesToMovies = new Map<string, RankedMovie[]>();
     singleActressMovies.forEach(({ movie, actressUrls: [actressUrl] }) => {
+      const slug = actressUrl.split('/').filter(Boolean).pop();
+      if (slug && EXCLUDED_ACTRESS_IDS.has(slug)) return;
       const list = actressesToMovies.get(actressUrl) ?? [];
       list.push(movie);
       actressesToMovies.set(actressUrl, list);
@@ -110,7 +138,7 @@ export async function refreshActressData(force = false) {
     });
     const avbase = createAvBaseEnricher();
     const minnano = createMinnanoAvEnricher();
-    const profiles = await mapLimit(
+    const rawProfiles = await mapLimit(
       [...actressesToMovies.entries()],
       2,
       async ([sourceUrl, movies]) => {
@@ -118,6 +146,7 @@ export async function refreshActressData(force = false) {
           await fetchHtml(sourceUrl),
           sourceUrl,
         );
+        if (EXCLUDED_ACTRESS_IDS.has(javProfile.id)) return null;
         const enriched = await avbase.lookup(javProfile);
         let profile =
           enriched.kind === 'matched'
@@ -159,6 +188,9 @@ export async function refreshActressData(force = false) {
         }
         return { ...profile, movies } satisfies ProfileWithMovies;
       },
+    );
+    const profiles = rawProfiles.filter(
+      (profile): profile is ProfileWithMovies => profile !== null,
     );
     const actresses = assignFoodAliases(
       assignTiers(profilesWithImages(profiles), discovered.length),
