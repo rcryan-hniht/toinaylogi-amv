@@ -1,7 +1,7 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 
 const USER_AGENT =
-  'ToiNayLoGi local personal data refresher/1.0 (+https://github.com/zennomi/toinaylogi)';
+  'ToiNayLoGi local personal data refresher/1.0 (+https://github.com/rcryan-hniht/toinaylogi-amv)';
 const MAX_HTML_BYTES = 2_000_000;
 const MAX_IMAGE_BYTES = 4_000_000;
 const allowedImageHosts = new Set([

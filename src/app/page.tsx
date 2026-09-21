@@ -506,7 +506,7 @@ export default function Home() {
           )}
           <a
             className="github-button"
-            href="https://github.com/zennomi/toinaylogi"
+            href="https://github.com/rcryan-hniht/toinaylogi-amv"
             target="_blank"
             rel="noreferrer"
             aria-label={t.github}
