@@ -25,6 +25,56 @@ export interface CustomCase {
   items: CustomCaseItem[];
 }
 
+export const DEFAULT_PRESET_CASES: CustomCase[] = [
+  {
+    id: 'case-usuk',
+    name: 'Hòm US&UK',
+    description: 'Hòm các nữ diễn viên US&UK',
+    icon: '🇺🇸',
+    createdAt: 1727092800000,
+    updatedAt: 1727092800000,
+    spinCount: 0,
+    dropMode: 'csgo_tier',
+    items: [
+      {
+        id: 'comatozze',
+        name: 'Comatozze',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/comatozze.jpg',
+        tier: 4,
+      },
+      {
+        id: 'sweetie-fox',
+        name: 'Sweetie Fox',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/sweetie-fox.jpg',
+        tier: 4,
+      },
+      {
+        id: 'violet-myers',
+        name: 'Violet Myers',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/violet-myers.jpg',
+        tier: 3,
+      },
+      {
+        id: 'skylar-vox',
+        name: 'Skylar Vox',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/skylar-vox.jpg',
+        tier: 2,
+      },
+      {
+        id: 'reslin',
+        name: 'Reislin',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/reslin.jpg',
+        tier: 1,
+      },
+    ],
+  },
+];
+
 export interface CustomCaseStore {
   version: 1;
   activeCaseId: string | null;
@@ -127,22 +177,28 @@ function validateCase(raw: unknown): CustomCase | null {
 export function loadStore(): CustomCaseStore {
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (!raw) return { version: 1, activeCaseId: null, cases: [] };
+    if (!raw) return { version: 1, activeCaseId: null, cases: [...DEFAULT_PRESET_CASES] };
     const parsed = JSON.parse(raw);
     if (!parsed || parsed.version !== 1 || !Array.isArray(parsed.cases))
-      return { version: 1, activeCaseId: null, cases: [] };
-    const cases = parsed.cases
+      return { version: 1, activeCaseId: null, cases: [...DEFAULT_PRESET_CASES] };
+    const userCases = parsed.cases
       .map(validateCase)
-      .filter(Boolean)
-      .slice(0, MAX_CASES) as CustomCase[];
+      .filter(Boolean) as CustomCase[];
+    const cases = [...userCases];
+    for (const preset of DEFAULT_PRESET_CASES) {
+      if (!cases.some((c) => c.id === preset.id)) {
+        cases.unshift(preset);
+      }
+    }
+    const limitedCases = cases.slice(0, MAX_CASES);
     const activeCaseId =
       typeof parsed.activeCaseId === 'string' &&
-      cases.some((c) => c.id === parsed.activeCaseId)
+      limitedCases.some((c) => c.id === parsed.activeCaseId)
         ? parsed.activeCaseId
         : null;
-    return { version: 1, activeCaseId, cases };
+    return { version: 1, activeCaseId, cases: limitedCases };
   } catch {
-    return { version: 1, activeCaseId: null, cases: [] };
+    return { version: 1, activeCaseId: null, cases: [...DEFAULT_PRESET_CASES] };
   }
 }
 

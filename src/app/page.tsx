@@ -256,29 +256,46 @@ export default function Home() {
   }, []);
   useEffect(() => () => cancelAnimationFrame(frame.current), []);
   useEffect(() => {
-    if (snapshot && !spinning) setActive(snapshot.actresses);
+    if (snapshot && !spinning) {
+      setActive(
+        snapshot.actresses.filter((a) => !a.sourceUrl.includes('pornhub.com')),
+      );
+    }
   }, [snapshot, spinning]);
+  const actressMap = useMemo(() => {
+    return new Map(snapshot?.actresses.map((a) => [a.id, a]) ?? []);
+  }, [snapshot]);
   const eligible = useMemo(() => {
     if (customCases.activeCase) {
       // Map custom case items to Actress-like objects for the reel
-      return customCases.activeCase.items.map((item) => ({
-        id: item.id,
-        sourceUrl: '',
-        name: item.name,
-        publicName: item.name,
-        aliases: [],
-        imagePath: item.imagePath,
-        socialLinks: [],
-        score: 0,
-        tier: item.tier as 0 | 1 | 2 | 3 | 4,
-        bestRank: 0,
-        appearances: 0,
-        contributingMovies: [],
-        weight: item.weight,
-      })) as (Actress & { weight?: number })[];
+      return customCases.activeCase.items.map((item) => {
+        const full = actressMap.get(item.id);
+        if (full) {
+          return {
+            ...full,
+            tier: item.tier as 0 | 1 | 2 | 3 | 4,
+            weight: item.weight,
+          };
+        }
+        return {
+          id: item.id,
+          sourceUrl: '',
+          name: item.name,
+          publicName: item.name,
+          aliases: [],
+          imagePath: item.imagePath,
+          socialLinks: [],
+          score: 0,
+          tier: item.tier as 0 | 1 | 2 | 3 | 4,
+          bestRank: 0,
+          appearances: 0,
+          contributingMovies: [],
+          weight: item.weight,
+        } as Actress & { weight?: number };
+      });
     }
     return eligibleActresses(active, preferences.profile);
-  }, [active, preferences.profile, customCases.activeCase]);
+  }, [active, preferences.profile, customCases.activeCase, actressMap]);
   useEffect(() => {
     if (!eligible.length) {
       setReel([]);
@@ -929,7 +946,7 @@ export default function Home() {
       </main>
       {showCaseBuilder && (
         <CaseBuilderModal
-          actresses={active}
+          actresses={snapshot.actresses}
           language={language}
           onSave={(name, items, options) =>
             customCases.addCase(name, items, options)

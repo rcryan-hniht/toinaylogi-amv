@@ -13,13 +13,13 @@ interface CaseSelectorProps {
 
 const labels = {
   vi: {
-    defaultCase: 'Hòm Mặc Định',
+    defaultCase: 'Hòm AV',
     createNew: 'Tạo Hòm',
     items: 'vật phẩm',
     spins: 'lượt mở',
   },
   en: {
-    defaultCase: 'Default Case',
+    defaultCase: 'AV Case',
     createNew: 'New Case',
     items: 'items',
     spins: 'opens',

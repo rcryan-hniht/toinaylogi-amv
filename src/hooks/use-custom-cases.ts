@@ -13,13 +13,14 @@ import {
   setActiveCase as setActiveCaseInStore,
   importCase,
   exportCase,
+  DEFAULT_PRESET_CASES,
 } from '@/lib/custom-cases';
 
 export function useCustomCases() {
   const [store, setStore] = useState<CustomCaseStore>({
     version: 1,
     activeCaseId: null,
-    cases: [],
+    cases: DEFAULT_PRESET_CASES,
   });
 
   useEffect(() => {
