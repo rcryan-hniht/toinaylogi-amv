@@ -43,7 +43,6 @@ import { CaseBuilderModal } from '@/components/case-builder-modal';
 import { CaseManagerModal } from '@/components/case-manager-modal';
 import { CaseAudio } from '@/lib/case-audio';
 import { translateTags } from '@/lib/tag-translations';
-import { isDirectCardDialogEnabled } from '@/lib/direct-card-dialog';
 import { CharacterStatsRadar } from '@/components/character-stats-radar';
 
 const colors = ['#4b69ff', '#8847ff', '#d32ce6', '#eb4b4b', '#e4ae39'];
@@ -440,15 +439,13 @@ export default function Home() {
     frame.current = requestAnimationFrame(animate);
   }
 
-  const allowDirectCardDialog = isDirectCardDialogEnabled();
-
   const handleCardClick = useCallback(
-    (actress: Actress) => {
-      if (!allowDirectCardDialog || spinning || busy.current) return;
-      setResult(actress);
+    (target: Actress) => {
+      if (spinning || busy.current) return;
+      setResult(target);
       setRevealed(true);
     },
-    [allowDirectCardDialog, spinning],
+    [spinning],
   );
 
   const inventory = useMemo(
@@ -463,12 +460,10 @@ export default function Home() {
             actress={actress}
             language={language}
             small
-            onClick={
-              allowDirectCardDialog ? () => handleCardClick(actress) : undefined
-            }
+            onClick={() => handleCardClick(actress)}
           />
         )),
-    [eligible, language, allowDirectCardDialog, handleCardClick],
+    [eligible, language, handleCardClick],
   );
   if (!snapshot)
     return (
@@ -812,7 +807,10 @@ export default function Home() {
                               <a
                                 key={movie.code}
                                 className="winner-movie-chip"
-                                href={`https://www.google.com/search?q=${encodeURIComponent(movie.code)}`}
+                                href={
+                                  movie.movieUrl ||
+                                  `https://www.google.com/search?q=${encodeURIComponent(movie.code)}`
+                                }
                                 target="_blank"
                                 rel="noreferrer"
                               >

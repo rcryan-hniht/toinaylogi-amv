@@ -521,15 +521,48 @@ export const TAG_VI_TO_EN: Record<string, string> = {
   'Đóng cùng bạn diễn da màu': 'Black Co-star',
 };
 
+export const TAG_EN_TO_VI: Record<string, string> = {
+  '18-25': '18-25',
+  Amateur: 'Không chuyên (Amateur)',
+  'Big Ass': 'Mông to (Big Ass)',
+  'Big Dick': 'Big Dick',
+  'Big Tits': 'Ngực khủng (Big Tits)',
+  Blonde: 'Tóc vàng (Blonde)',
+  Brunette: 'Tóc nâu (Brunette)',
+  Cosplay: 'Hóa trang (Cosplay)',
+  Reality: 'Thực tế (Reality)',
+  'Verified Amateurs': 'Người mẫu xác thực',
+  'Verified Models': 'Người mẫu xác thực',
+  Pornstar: 'Diễn viên chuyên nghiệp',
+  Latina: 'Mỹ Latinh (Latina)',
+  Anal: 'Hậu môn (Anal)',
+  Babe: 'Gái xinh (Babe)',
+  'Step Fantasy': 'Gia đình (Step Fantasy)',
+  Threesome: '3 người (Threesome)',
+  Blowjob: 'Oral sex (Blowjob)',
+  Deepthroat: 'Deepthroat',
+  Cumshot: 'Cumshot',
+  POV: 'Góc nhìn POV',
+  'HD Porn': 'Chất lượng HD',
+  Interracial: 'Đa sắc tộc',
+  'Pussy Licking': 'Vét máng (Pussy Licking)',
+  'Rough Sex': 'Mạnh bạo (Rough Sex)',
+  'Solo Female': 'Đơn nữ (Solo)',
+  'Muscular Men': 'Cơ bắp',
+  Feet: 'Bàn chân (Feet)',
+};
+
 // Sets for fast validation of already-translated tags
 const KNOWN_VI_TAGS = new Set([
   ...Object.values(TAG_JA_TO_VI),
   ...Object.keys(TAG_VI_TO_EN),
+  ...Object.values(TAG_EN_TO_VI),
 ]);
 
 const KNOWN_EN_TAGS = new Set([
   ...Object.values(TAG_JA_TO_EN),
   ...Object.values(TAG_VI_TO_EN),
+  ...Object.keys(TAG_EN_TO_VI),
 ]);
 
 /**
@@ -553,6 +586,12 @@ export function translateTagToVietnamese(rawTag: string): string[] {
     // 1. Direct dictionary match (JA -> VI)
     if (TAG_JA_TO_VI[part]) {
       translatedList.push(TAG_JA_TO_VI[part]);
+      continue;
+    }
+
+    // 1b. Direct dictionary match (EN -> VI)
+    if (TAG_EN_TO_VI[part]) {
+      translatedList.push(TAG_EN_TO_VI[part]);
       continue;
     }
 

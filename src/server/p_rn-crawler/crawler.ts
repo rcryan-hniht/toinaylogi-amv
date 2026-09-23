@@ -1,7 +1,11 @@
 import { join } from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import { fetchPornhubHtml, fetchPornhubImage, safePhImageUrl } from './fetch';
-import { parsePornstarProfile } from './parser';
+import {
+  parsePornstarProfile,
+  parsePornhubVideo,
+  type ParsedPornhubVideo,
+} from './parser';
 import type { Actress, Tier } from '@/lib/actresses';
 
 export const PORNHUB_ORIGIN = 'https://www.pornhub.com';
@@ -81,4 +85,11 @@ export async function addPornhubActresses(slugs: string[], snapshotId: string): 
   }
   
   return result;
+}
+
+export async function fetchAndParsePornhubVideo(
+  videoUrl: string,
+): Promise<ParsedPornhubVideo> {
+  const html = await fetchPornhubHtml(videoUrl);
+  return parsePornhubVideo(html, videoUrl);
 }

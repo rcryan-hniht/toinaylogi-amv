@@ -498,3 +498,51 @@ test('isSingleActressMovie and filterSingleActressMovies skip movies with 2 or m
     ],
   );
 });
+
+test('parsePornhubVideo extracts title, tags, and uploader', async () => {
+  const { parsePornhubVideo } = await import('../src/server/p_rn-crawler/parser');
+  const sampleHtml = `
+    <div class="title-container">
+      <h1 class="title"><span>Real Couple Having Sensual Sex in the Hotel</span></h1>
+    </div>
+    <div class="userInfo">
+      <a class="bolded" href="/model/comatozze">comatozze</a>
+    </div>
+    <div class="categoriesWrapper">
+      <a href="/video?c=18-25">18-25</a>
+      <a href="/video?c=Amateur">Amateur</a>
+      <a href="/video?c=Big+Ass">Big Ass</a>
+    </div>
+    <div class="tagsWrapper">
+      <a href="/video?c=Blonde">Blonde</a>
+      <a href="/video?c=HD+Porn">HD Porn</a>
+    </div>
+  `;
+  const parsed = parsePornhubVideo(
+    sampleHtml,
+    'https://www.pornhub.com/view_video.php?viewkey=6aa93fefe0c26',
+  );
+  assert.equal(parsed.title, 'Real Couple Having Sensual Sex in the Hotel');
+  assert.equal(parsed.viewkey, '6aa93fefe0c26');
+  assert.deepEqual(parsed.tags, [
+    '18-25',
+    'Amateur',
+    'Big Ass',
+    'Blonde',
+    'HD Porn',
+  ]);
+  assert.equal(parsed.uploader, 'comatozze');
+});
+
+test('translates English categories to Vietnamese and English cleanly', () => {
+  const viTags = translateTags(['Amateur', 'Big Ass', 'Blonde', 'HD Porn'], 'vi');
+  assert.deepEqual(viTags, [
+    'Không chuyên (Amateur)',
+    'Mông to (Big Ass)',
+    'Tóc vàng (Blonde)',
+    'Chất lượng HD',
+  ]);
+
+  const enTags = translateTags(['Amateur', 'Big Ass', 'Blonde', 'HD Porn'], 'en');
+  assert.deepEqual(enTags, ['Amateur', 'Big Ass', 'Blonde', 'HD Porn']);
+});

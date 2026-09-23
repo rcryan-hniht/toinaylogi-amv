@@ -92,3 +92,37 @@ export function parsePornstarProfile(html: string, sourceUrl: string): ParsedPor
     ranks,
   };
 }
+
+export interface ParsedPornhubVideo {
+  title: string;
+  videoUrl: string;
+  viewkey: string;
+  tags: string[];
+  uploader?: string;
+}
+
+export function parsePornhubVideo(html: string, videoUrl: string): ParsedPornhubVideo {
+  const $ = cheerio.load(html);
+  const title = compact($('h1.title').text() || $('h1').first().text());
+  const canonical = canonicalPornhubUrl(videoUrl, 'video');
+  const parsedUrl = new URL(canonical || videoUrl);
+  const viewkey = parsedUrl.searchParams.get('viewkey') || '';
+
+  const tags: string[] = [];
+  $('.categoriesWrapper a, .tagsWrapper a, .video-info-row a[href*="/category/"], .video-info-row a[href*="/video?c="]').each((_, el) => {
+    const text = compact($(el).text());
+    if (text && !tags.includes(text) && !text.startsWith('+')) {
+      tags.push(text);
+    }
+  });
+
+  const uploader = compact($('.usernameBadgesWrapper a, .userInfo a, .pornstarName').first().text()) || undefined;
+
+  return {
+    title,
+    videoUrl: canonical || videoUrl,
+    viewkey,
+    tags,
+    uploader,
+  };
+}
