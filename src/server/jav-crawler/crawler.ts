@@ -59,6 +59,7 @@ export const EXCLUDED_ACTRESS_IDS = new Set([
   'nonomiya-misato',
   'ogasawara-nano',
   'shiina-yuna',
+  'sunohara-miki',
   'tanaka-nene',
   'tanihara-nozomi',
   'uruki-sarara',
