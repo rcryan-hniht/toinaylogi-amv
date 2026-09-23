@@ -1,22 +1,16 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 
-const USER_AGENT =
-  'ToiNayLoGi local personal data refresher/1.0 (+https://github.com/rcryan-hniht/toinaylogi-amv)';
+const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 const MAX_HTML_BYTES = 2_000_000;
 const MAX_IMAGE_BYTES = 4_000_000;
 const allowedImageHosts = new Set([
-  'jav.guru',
-  'cdn.javmiku.com',
-  'cdn.javnorth.com',
-  'cdn.javsts.com',
-  'pics.dmm.co.jp',
   'ei.phncdn.com',
   'di.phncdn.com',
   'ci.phncdn.com',
   'bi.phncdn.com',
 ]);
 
-export function safeImageUrl(value: string) {
+export function safePhImageUrl(value: string) {
   try {
     const url = new URL(value);
     return url.protocol === 'https:' && allowedImageHosts.has(url.hostname)
@@ -37,8 +31,7 @@ async function request(url: string, maxBytes: number, expected: RegExp) {
         signal: controller.signal,
         headers: {
           'user-agent': USER_AGENT,
-          accept:
-            'text/html,image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+          accept: 'text/html,image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
         },
       });
       if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
@@ -62,35 +55,18 @@ async function request(url: string, maxBytes: number, expected: RegExp) {
   throw last ?? new Error(`Request failed for ${url}`);
 }
 
-export async function fetchHtml(url: string) {
+export async function fetchPornhubHtml(url: string) {
   const { bytes } = await request(url, MAX_HTML_BYTES, /^text\/html\b/i);
   await sleep(180);
   return new TextDecoder().decode(bytes);
 }
-export async function fetchImage(url: string) {
+
+export async function fetchPornhubImage(url: string) {
   const { bytes, contentType } = await request(
     url,
     MAX_IMAGE_BYTES,
-    /^image\/(?:jpeg|png|webp)\b/i,
+    /^image\/(?:jpeg|png|webp|gif)\b/i,
   );
   await sleep(180);
   return { bytes, contentType };
-}
-
-export async function mapLimit<T, R>(
-  items: T[],
-  limit: number,
-  work: (item: T, index: number) => Promise<R>,
-) {
-  const result = new Array<R>(items.length);
-  let next = 0;
-  await Promise.all(
-    Array.from({ length: Math.min(limit, items.length) }, async () => {
-      while (next < items.length) {
-        const index = next++;
-        result[index] = await work(items[index], index);
-      }
-    }),
-  );
-  return result;
 }

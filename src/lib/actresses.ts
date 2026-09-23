@@ -149,6 +149,35 @@ export function canonicalJavUrl(value: unknown, kind: 'actress' | 'movie') {
   }
 }
 
+export function canonicalPornhubUrl(value: unknown, kind: 'pornstar' | 'video') {
+  if (typeof value !== 'string') return null;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:' || url.hostname !== 'www.pornhub.com') return null;
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (kind === 'pornstar') {
+      if (parts.length !== 2 || (parts[0] !== 'pornstar' && parts[0] !== 'model')) {
+        return null;
+      }
+      url.search = '';
+      url.hash = '';
+      url.pathname = `/${parts.join('/')}/`;
+      return url.href;
+    } else if (kind === 'video') {
+      if (url.pathname !== '/view_video.php' || !url.searchParams.has('viewkey')) {
+        return null;
+      }
+      const viewkey = url.searchParams.get('viewkey');
+      url.search = `?viewkey=${viewkey}`;
+      url.hash = '';
+      return url.href;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export function canonicalAvBaseUrl(value: unknown) {
   if (typeof value !== 'string') return null;
   try {
@@ -375,7 +404,7 @@ export function validateSnapshot(input: unknown): ActressSnapshot | null {
     const id = safeText(row.id, 100);
     const name = safeText(row.name, 120);
     const publicName = safeText(row.publicName, 120);
-    const sourceUrl = canonicalJavUrl(row.sourceUrl, 'actress');
+    const sourceUrl = canonicalJavUrl(row.sourceUrl, 'actress') ?? canonicalPornhubUrl(row.sourceUrl, 'pornstar');
     if (
       !id ||
       ids.has(id) ||
@@ -409,7 +438,7 @@ export function validateSnapshot(input: unknown): ActressSnapshot | null {
       if (!movie || typeof movie !== 'object') return null;
       const parsed = movie as Record<string, unknown>;
       const code = safeText(parsed.code, 80);
-      const movieUrl = canonicalJavUrl(parsed.movieUrl, 'movie');
+      const movieUrl = canonicalJavUrl(parsed.movieUrl, 'movie') ?? canonicalPornhubUrl(parsed.movieUrl, 'video');
       return Number.isSafeInteger(parsed.rank) &&
         (parsed.rank as number) >= 1 &&
         code &&
