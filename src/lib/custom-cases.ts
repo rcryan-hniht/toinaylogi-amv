@@ -86,17 +86,17 @@ export const DEFAULT_PRESET_CASES: CustomCase[] = [
         tier: 0,
       },
       {
-        id: 'poly-yangs',
-        name: 'Poly Yangs',
+        id: 'polly-yangs',
+        name: 'Polly Yangs',
         imagePath:
-          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/poly-yangs.jpg',
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/polly-yangs.jpg',
         tier: 0,
       },
       {
-        id: 'charlie-o',
-        name: 'Charlie O',
+        id: 'charli-o',
+        name: 'Charli O',
         imagePath:
-          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/charlie-o.jpg',
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/charli-o.jpg',
         tier: 3,
       },
       {

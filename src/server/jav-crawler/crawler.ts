@@ -67,8 +67,8 @@ export const EXCLUDED_ACTRESS_IDS = new Set([
 export const EXTRA_PORNHUB_ACTRESS_TIERS = {
   'octavia-red': 0,
   'skye-blue': 0,
-  'poly-yangs': 0,
-  'charlie-o': 3,
+  'polly-yangs': 0,
+  'charli-o': 3,
   'stella-cox': 3,
 } as const satisfies Readonly<Record<string, Tier>>;
 
