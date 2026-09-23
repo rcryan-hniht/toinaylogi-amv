@@ -16,11 +16,20 @@ export interface ParsedPornhubProfile extends ParsedProfile {
 export function parsePornstarProfile(html: string, sourceUrl: string): ParsedPornhubProfile {
   const $ = cheerio.load(html);
   
+  const pageCanonical = $('link[rel="canonical"]').attr('href') || '';
+  if (pageCanonical.endsWith('/pornstars') || pageCanonical.endsWith('/pornstars/')) {
+    throw new Error('Profile not found (redirected to pornstars list)');
+  }
   const name = compact($('h1[itemprop="name"]').text() || $('.profileUserName').text() || $('h1').first().text());
   const canonical = canonicalPornhubUrl(sourceUrl, 'pornstar');
-  if (!canonical || !name) throw new Error('Profile markup changed or invalid URL');
+  if (!canonical || !name || name.toLowerCase() === 'top trending pornstars') {
+    throw new Error('Profile markup changed or invalid URL');
+  }
   
   const imageUrl = $('#getAvatar').attr('src');
+  if (!imageUrl) {
+    throw new Error('Profile avatar not found');
+  }
   
   let heightCm: number | undefined;
   let hometown: string | undefined;

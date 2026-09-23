@@ -71,6 +71,41 @@ export const DEFAULT_PRESET_CASES: CustomCase[] = [
           '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/reslin.jpg',
         tier: 1,
       },
+      {
+        id: 'octavia-red',
+        name: 'Octavia Red',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/octavia-red.jpg',
+        tier: 0,
+      },
+      {
+        id: 'skye-blue',
+        name: 'Skye Blue',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/skye-blue.jpg',
+        tier: 0,
+      },
+      {
+        id: 'poly-yangs',
+        name: 'Poly Yangs',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/poly-yangs.jpg',
+        tier: 0,
+      },
+      {
+        id: 'charlie-o',
+        name: 'Charlie O',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/charlie-o.jpg',
+        tier: 3,
+      },
+      {
+        id: 'stella-cox',
+        name: 'Stella Cox',
+        imagePath:
+          '/actress-cache/snapshots/2026-09-21t14-14-17-245z-3df7e3a3/images/stella-cox.jpg',
+        tier: 3,
+      },
     ],
   },
 ];

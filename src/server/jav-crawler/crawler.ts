@@ -1,11 +1,16 @@
 import { rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { SNAPSHOT_SCHEMA_VERSION, type ActressSnapshot } from '@/lib/actresses';
+import {
+  SNAPSHOT_SCHEMA_VERSION,
+  type ActressSnapshot,
+  type Tier,
+} from '@/lib/actresses';
 import { assignFoodAliases, createSeededRandom } from '@/lib/food-aliases';
 import { fetchHtml, fetchImage, mapLimit, safeImageUrl } from './fetch';
 import { createAvBaseEnricher, mergeAvBaseProfile } from './avbase';
 import { createMinnanoAvEnricher, mergeMinnanoAvProfile } from './minnano-av';
+import { addPornhubActresses } from '../p_rn-crawler/crawler';
 import {
   isSingleActressMovie,
   parseActressProfile,
@@ -58,6 +63,14 @@ export const EXCLUDED_ACTRESS_IDS = new Set([
   'tanihara-nozomi',
   'uruki-sarara',
 ]);
+
+export const EXTRA_PORNHUB_ACTRESS_TIERS = {
+  'octavia-red': 0,
+  'skye-blue': 0,
+  'poly-yangs': 0,
+  'charlie-o': 3,
+  'stella-cox': 3,
+} as const satisfies Readonly<Record<string, Tier>>;
 
 export async function refreshActressData(force = false) {
   const release = await takeLock();
@@ -193,8 +206,28 @@ export async function refreshActressData(force = false) {
     const profiles = rawProfiles.filter(
       (profile): profile is ProfileWithMovies => profile !== null,
     );
+    await writeStatus({
+      state: 'refreshing',
+      message: 'Reading additional profile images',
+    });
+    const additionalActresses = await addPornhubActresses(
+      Object.keys(EXTRA_PORNHUB_ACTRESS_TIERS),
+      snapshotId,
+      {
+        imageDirectory: join(staging, 'images'),
+        tiers: EXTRA_PORNHUB_ACTRESS_TIERS,
+      },
+    );
+    const rankedActresses = assignTiers(
+      profilesWithImages(profiles),
+      discovered.length,
+    );
+    const existingIds = new Set(rankedActresses.map((actress) => actress.id));
     const actresses = assignFoodAliases(
-      assignTiers(profilesWithImages(profiles), discovered.length),
+      [
+        ...rankedActresses,
+        ...additionalActresses.filter((actress) => !existingIds.has(actress.id)),
+      ],
       createSeededRandom(snapshotId),
     );
     if (actresses.length < 5) throw new Error('Too few valid actresses');
