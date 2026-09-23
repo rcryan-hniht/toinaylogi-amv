@@ -255,19 +255,20 @@ export default function Home() {
   }, []);
   useEffect(() => () => cancelAnimationFrame(frame.current), []);
   useEffect(() => {
-    if (snapshot && !spinning) {
+    if (snapshot) {
       setActive(
         snapshot.actresses.filter((a) => !a.sourceUrl.includes('pornhub.com')),
       );
     }
-  }, [snapshot, spinning]);
+  }, [snapshot]);
   const actressMap = useMemo(() => {
     return new Map(snapshot?.actresses.map((a) => [a.id, a]) ?? []);
   }, [snapshot]);
+  const activeCaseItems = customCases.activeCase?.items;
   const eligible = useMemo(() => {
-    if (customCases.activeCase) {
+    if (activeCaseItems) {
       // Map custom case items to Actress-like objects for the reel
-      return customCases.activeCase.items.map((item) => {
+      return activeCaseItems.map((item) => {
         const full = actressMap.get(item.id);
         if (full) {
           return {
@@ -294,8 +295,9 @@ export default function Home() {
       });
     }
     return eligibleActresses(active, preferences.profile);
-  }, [active, preferences.profile, customCases.activeCase, actressMap]);
+  }, [active, preferences.profile, activeCaseItems, actressMap]);
   useEffect(() => {
+    if (spinning || busy.current) return;
     if (!eligible.length) {
       setReel([]);
       setVisibleStart(0);
@@ -315,15 +317,16 @@ export default function Home() {
     position.current = reelInitialOffset - firstSlot * reelStep;
     if (track.current)
       track.current.style.transform = `translate3d(${position.current}px,0,0)`;
-  }, [eligible]);
+  }, [eligible, spinning]);
   useEffect(() => {
+    if (!snapshot) return;
     const last = readCookie<{ id?: unknown }>('last-choice');
     if (last?.id && typeof last.id === 'string') {
-      const found = active.find((item) => item.id === last.id) ?? null;
-      setResult(found);
-      setLastChoice(found);
+      const found =
+        snapshot.actresses.find((item) => item.id === last.id) ?? null;
+      setLastChoice((prev) => prev ?? found);
     }
-  }, [active]);
+  }, [snapshot]);
   const attachTrack = useCallback((node: HTMLDivElement | null) => {
     track.current = node;
     if (node) node.style.transform = `translate3d(${position.current}px,0,0)`;
